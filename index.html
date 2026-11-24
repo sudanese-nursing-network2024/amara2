@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMARA | أمارا بيوتي سنتر — الرئيسية</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            tajawal: ['Tajawal', 'sans-serif'],
+          },
+          colors: {
+            cream: '#FAF3E8',
+            gold: '#B48C50',
+            goldLight: '#DFBE86',
+            goldDark: '#8A6631',
+            espresso: '#2E2419',
+            roseDust: '#C08A9A',
+          },
+          boxShadow: {
+            goldGlow: '0 0 28px rgba(180, 140, 80, 0.45)',
+            goldStrong: '0 10px 35px -5px rgba(180, 140, 80, 0.65)',
+            softCard: '0 20px 50px -15px rgba(46, 36, 25, 0.12)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --gold: #B48C50;
+      --gold-dark: #8A6631;
+      --cream: #FAF3E8;
+      --ink: #2E2419;
+    }
+
+- {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Cairo', 'Tajawal', system-ui, sans-serif;
+      background-color: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 15%, rgba(229, 199, 146, 0.35), transparent 42%),
+        radial-gradient(circle at 88% 20%, rgba(192, 138, 154, 0.22), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(180, 140, 80, 0.18), transparent 50%),
+        #FAF3E8;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(180, 140, 80, 0.25);
+    }
+
+    .logo-ring {
+      position: relative;
+      padding: 4px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #F3DCAA, #B48C50, #7D5B28, #E6C892);
+      box-shadow: 0 15px 40px rgba(180, 140, 80, 0.35);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .logo-ring:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 22px 50px rgba(180, 140, 80, 0.5);
+    }
+
+    .luxe-btn {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .luxe-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 65%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+      transform: skewX(-22deg);
+      transition: left 0.6s ease;
+    }
+
+    .luxe-btn:hover::before {
+      left: 140%;
+    }
+
+    .luxe-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(180, 140, 80, 0.38);
+    }
+
+    .luxe-btn:active {
+      transform: scale(0.97);
+    }
+
+    .ripple-circle {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleAnim 0.65s linear;
+      background: rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+    }
+
+    @keyframes rippleAnim {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .feature-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(180, 140, 80, 0.65);
+      box-shadow: 0 20px 40px -12px rgba(180, 140, 80, 0.25);
+    }
+
+    /* النافذة المنبثقة والقائمة الجانبية */
+    .overlay-backdrop {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .overlay-backdrop.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .overlay-card {
+      transform: scale(0.95) translateY(12px);
+      transition: transform 0.3s ease;
+    }
+
+    .overlay-backdrop.open .overlay-card {
+      transform: scale(1) translateY(0);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-gold/25 selection:text-espresso">
+
+  <div class="ambient-bg" aria-hidden="true"></div>
+
+  <!-- الشريط العلوي -->
+  <header class="sticky top-0 z-40 glass-panel border-b border-gold/20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
+
+      <a href="index.html" class="flex items-center gap-3 shrink-0">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-gold to-goldDark text-white flex items-center justify-center shadow-goldGlow">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="block font-black text-lg tracking-wide text-espresso leading-none">AMARA</span>
+          <span class="text-xs text-goldDark font-semibold">أمارا بيوتي سنتر</span>
+        </div>
+      </a>
+
+      <!-- روابط التنقل في اللابتوب والشاشات الكبيرة -->
+      <nav class="hidden lg:flex items-center gap-1 bg-white/70 p-1.5 rounded-2xl border border-gold/20">
+        <a href="index.html" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-gold to-goldDark text-white shadow-sm flex items-center gap-1.5">
+          <i data-lucide="home" class="w-4 h-4"></i> الرئيسية
+        </a>
+        <a href="services.html" class="px-3.5 py-2 rounded-xl text-sm font-bold text-espresso/80 hover:text-goldDark hover:bg-white transition flex items-center gap-1.5">
+          <i data-lucide="list-checks" class="w-4 h-4"></i> الخدمات والأسعار
+        </a>
+        <a href="offers.html" class="px-3.5 py-2 rounded-xl text-sm font-bold text-espresso/80 hover:text-goldDark hover:bg-white transition flex items-center gap-1.5">
+          <i data-lucide="crown" class="w-4 h-4"></i> البكجات والعروض
+        </a>
+        <a href="booking.html" class="px-3.5 py-2 rounded-xl text-sm font-bold text-espresso/80 hover:text-goldDark hover:bg-white transition flex items-center gap-1.5">
+          <i data-lucide="calendar-heart" class="w-4 h-4"></i> الحجز الذكي
+        </a>
+        <a href="contact.html" class="px-3.5 py-2 rounded-xl text-sm font-bold text-espresso/80 hover:text-goldDark hover:bg-white transition flex items-center gap-1.5">
+          <i data-lucide="map-pin" class="w-4 h-4"></i> الموقع والتواصل
+        </a>
+      </nav>
+
+      <!-- عداد السلة + زر القائمة للهاتف والتابلت -->
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="booking.html" class="luxe-btn px-3 py-2.5 rounded-2xl bg-white border border-gold/35 text-espresso font-bold text-xs sm:text-sm flex items-center gap-2 shadow-sm">
+          <i data-lucide="shopping-bag" class="w-4 h-4 text-goldDark"></i>
+          <span>سلة الحجز</span>
+          <span id="cartBadge" class="min-w-[22px] h-[22px] px-1.5 rounded-full bg-gradient-to-r from-gold to-goldDark text-white text-xs font-extrabold flex items-center justify-center">0</span>
+        </a>
+
+        <button id="openDrawerBtn" type="button" aria-label="فتح القائمة" class="lg:hidden luxe-btn w-11 h-11 rounded-2xl bg-gradient-to-br from-gold to-goldDark text-white flex items-center justify-center shadow-goldGlow">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- قائمة منبثقة للهاتف والتابلت -->
+  <div id="mobileDrawer" class="overlay-backdrop fixed inset-0 z-50 bg-espresso/55 backdrop-blur-sm lg:hidden justify-end">
+    <div class="overlay-card w-80 max-w-[85vw] h-full bg-cream p-6 flex flex-col justify-between border-l border-gold/30 shadow-2xl overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-5 border-b border-gold/20">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-xl bg-gold text-white flex items-center justify-center">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="font-black text-espresso">AMARA</p>
+              <p class="text-xs text-goldDark">قائمة الشاشات</p>
+            </div>
+          </div>
+          <button id="closeDrawerBtn" type="button" aria-label="إغلاق القائمة" class="w-9 h-9 rounded-xl bg-white border border-gold/25 flex items-center justify-center text-espresso">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="mt-6 flex flex-col gap-2.5">
+          <a href="index.html" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gradient-to-r from-gold to-goldDark text-white font-bold shadow-goldGlow">
+            <i data-lucide="home" class="w-5 h-5"></i> الرئيسية
+          </a>
+          <a href="services.html" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white hover:bg-gold/10 text-espresso font-bold border border-gold/15 transition">
+            <i data-lucide="list-checks" class="w-5 h-5 text-goldDark"></i> الخدمات والأسعار
+          </a>
+          <a href="offers.html" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white hover:bg-gold/10 text-espresso font-bold border border-gold/15 transition">
+            <i data-lucide="crown" class="w-5 h-5 text-goldDark"></i> البكجات والعروض
+          </a>
+          <a href="booking.html" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white hover:bg-gold/10 text-espresso font-bold border border-gold/15 transition">
+            <i data-lucide="calendar-heart" class="w-5 h-5 text-goldDark"></i> الحجز الذكي
+          </a>
+          <a href="contact.html" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white hover:bg-gold/10 text-espresso font-bold border border-gold/15 transition">
+            <i data-lucide="map-pin" class="w-5 h-5 text-goldDark"></i> الموقع والتواصل
+          </a>
+        </div>
+      </div>
+
+      <div class="p-4 mt-6 rounded-2xl bg-white/90 border border-gold/25 text-center">
+        <p id="drawerAddressText" class="text-xs text-espresso/75">زلط الشعبية مقابل مخبز طيبة</p>
+        <p id="drawerPhoneText" class="text-xs font-bold text-goldDark mt-1" dir="ltr">+249 12 241 7774</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي (ظاهر بالكامل في الهاتف واللابتوب) -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-16">
+
+    <!-- قسم الترحيب الرئيسي -->
+    <section class="glass-panel rounded-[30px] p-5 sm:p-10 shadow-softCard">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+        <div class="lg:col-span-7 text-center lg:text-right space-y-4 sm:space-y-5">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-goldDark text-xs sm:text-sm font-bold">
+            <i data-lucide="gem" class="w-4 h-4"></i>
+            <span>AMARA BEAUTY CENTER • تجربة جمال متكاملة</span>
+          </div>
+
+          <h1 id="heroTitleText" class="text-2xl sm:text-5xl font-black text-espresso leading-tight">
+            إطلالة تليق بجمالك في
+            <span class="bg-gradient-to-l from-goldDark via-gold to-amber-500 bg-clip-text text-transparent">أمارا بيوتي سنتر</span>
+          </h1>
+
+          <p id="heroDescText" class="text-espresso/80 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            نجمع بين العناية الطبية المتطورة بالبشرة والجسم، وفنون الحنة والتجميل والمكياج وبكجات العرائس، بتجربة مريحة ومنظمة تبدأ من تصفح الأسعار وحتى تأكيد حجزك بكل سهولة.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-2">
+            <a href="services.html" class="luxe-btn px-6 py-4 rounded-2xl bg-gradient-to-r from-gold via-goldDark to-gold text-white font-extrabold text-sm sm:text-base shadow-goldStrong flex items-center justify-center gap-2">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+              <span>استعراض الخدمات والأسعار</span>
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+
+            <button id="openPromoModalBtn" type="button" class="luxe-btn px-6 py-4 rounded-2xl bg-white hover:bg-amber-50 text-espresso border-2 border-gold/40 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-sm">
+              <i data-lucide="ticket-percent" class="w-5 h-5 text-goldDark"></i>
+              <span>عروض وبكجات مميزة</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2.5 sm:gap-3 pt-4 border-t border-gold/20 max-w-xl mx-auto lg:mx-0">
+            <div class="bg-white/80 rounded-2xl p-3 border border-gold/15 text-center">
+              <p class="text-lg sm:text-2xl font-black text-goldDark">8+</p>
+              <p class="text-[11px] sm:text-xs text-espresso/75 font-semibold">أقسام متخصصة</p>
+            </div>
+            <div class="bg-white/80 rounded-2xl p-3 border border-gold/15 text-center">
+              <p class="text-lg sm:text-2xl font-black text-goldDark">65+</p>
+              <p class="text-[11px] sm:text-xs text-espresso/75 font-semibold">خدمة وباقة</p>
+            </div>
+            <div class="bg-white/80 rounded-2xl p-3 border border-gold/15 text-center">
+              <p class="text-lg sm:text-2xl font-black text-goldDark">VIP</p>
+              <p class="text-[11px] sm:text-xs text-espresso/75 font-semibold">جلسات وعرائس</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col items-center justify-center">
+          <div class="logo-ring w-full max-w-[310px]">
+            <div class="bg-white rounded-[24px] p-5 sm:p-6 text-center space-y-3">
+              <img
+                src="logo.png"
+                alt="AMARA BEAUTY CENTER BY ROAA SALAH"
+                onerror="this.style.display='none'; document.getElementById('logoFallback').classList.remove('hidden');"
+                class="w-40 h-40 sm:w-44 sm:h-44 mx-auto object-contain rounded-2xl"
+              />
+              <div id="logoFallback" class="hidden w-40 h-40 mx-auto rounded-2xl bg-cream border border-gold/30 flex flex-col items-center justify-center gap-2">
+                <i data-lucide="crown" class="w-10 h-10 text-goldDark"></i>
+                <span class="font-black text-2xl tracking-widest text-goldDark">AMARA</span>
+                <span class="text-xs text-espresso/70">BEAUTY CENTER</span>
+              </div>
+              <div class="pt-2 border-t border-gold/15">
+                <p class="font-black text-espresso text-base sm:text-lg">AMARA BEAUTY CENTER</p>
+                <p class="text-xs font-bold text-goldDark mt-0.5">BY ROAA SALAH</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- شاشات الموقع والأقسام -->
+    <section class="mt-10 sm:mt-12">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-goldDark">خريطة الشاشات</span>
+          <h2 class="text-xl sm:text-3xl font-black text-espresso mt-1">شاشات النظام والأقسام</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-espresso/75">اضغط على أي شاشة لفتحها أو معاينة تفاصيلها</p>
+      </div>
+
+      <div id="screensGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"></div>
+    </section>
+
+  </main>
+
+  <!-- النافذة المنبثقة للعروض السريعة -->
+  <div id="promoModal" class="overlay-backdrop fixed inset-0 z-50 bg-espresso/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="overlay-card w-full max-w-lg bg-white rounded-[28px] p-6 sm:p-7 border border-gold/35 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="closePromoModalBtn" type="button" aria-label="إغلاق" class="w-10 h-10 rounded-2xl bg-cream hover:bg-gold/15 text-espresso flex items-center justify-center absolute top-5 left-5 transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 text-goldDark text-xs font-extrabold mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>عروض وبكجات أمارا</span>
+      </div>
+
+      <h3 class="text-xl sm:text-2xl font-black text-espresso">باقات متكاملة تناسب مناسباتك</h3>
+      <p class="text-xs sm:text-sm text-espresso/75 mt-2 leading-relaxed">
+        اكتشفي بكجات التلبيس والجرتق، وجلسات الهايدرافيشل والديرمابين، واحجزي خدماتك المفضلة في سلة واحدة ثم أرسلي طلبك مباشرة عبر واتساب.
+      </p>
+
+      <div id="highlightsList" class="mt-5 space-y-2.5"></div>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <a href="offers.html" class="luxe-btn flex-1 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-gold to-goldDark text-white font-extrabold text-sm text-center flex items-center justify-center gap-2 shadow-goldGlow">
+          <i data-lucide="crown" class="w-4 h-4"></i>
+          <span>الذهاب لشاشة البكجات</span>
+        </a>
+        <a href="services.html" class="luxe-btn flex-1 py-3.5 px-5 rounded-2xl bg-cream hover:bg-amber-100/70 text-espresso border border-gold/35 font-extrabold text-sm text-center flex items-center justify-center gap-2">
+          <i data-lucide="list-checks" class="w-4 h-4 text-goldDark"></i>
+          <span>تصفح كل الأسعار</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- تذييل الصفحة -->
+  <footer class="glass-panel border-t border-gold/20 py-7 px-4 text-center">
+    <div class="max-w-5xl mx-auto space-y-1.5">
+      <p class="font-extrabold text-espresso">AMARA BEAUTY CENTER • أمارا بيوتي سنتر</p>
+      <p id="footerContactText" class="text-xs sm:text-sm text-espresso/75">📍 زلط الشعبية مقابل مخبز طيبة • 📞 <span dir="ltr">+249 12 241 7774</span></p>
+      <p id="footerSocialText" class="text-xs text-goldDark font-semibold">فيسبوك: Amara Amara | انستقرام: amara202688 | تيك توك: Amara for beauty</p>
+    </div>
+  </footer>
+
+  <!-- تم تغيير النوع هنا إلى module ليدعم استيراد Firebase، مع الاحتفاظ بجميع الأكواد السابقة كما هي -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // إعدادات فايربيس
+    const firebaseConfig = {
+      apiKey: "AIzaSyDua6TiR3ClbHW-IGseLdPtrQOcFXO6qjw",
+      authDomain: "amara-beauty.firebaseapp.com",
+      projectId: "amara-beauty",
+      storageBucket: "amara-beauty.firebasestorage.app",
+      messagingSenderId: "1045260330208",
+      appId: "1:1045260330208:web:971d3ba16f68fabc739c85",
+      measurementId: "G-S0WGK7C0MQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // دالة الربط مع فايربيس (تقوم بجلب البيانات وتحديث الواجهة مباشرة)
+    async function syncWithFirebase() {
+      try {
+        const catalogRef = doc(db, "amara_center", "unified_catalog");
+        const snap = await getDoc(catalogRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          
+          // تحديث نصوص الشاشة الرئيسية
+          if (data.home) {
+            const titleEl = document.getElementById("heroTitleText");
+            if (titleEl && data.home.heroTitle) {
+               titleEl.innerHTML = `${data.home.heroTitle} <br class="hidden sm:block" /> <span class="bg-gradient-to-l from-goldDark via-gold to-amber-500 bg-clip-text text-transparent">${data.home.brandName || 'أمارا بيوتي سنتر'}</span>`;
+            }
+            
+            const descEl = document.getElementById("heroDescText");
+            if (descEl && data.home.heroDesc) {
+              descEl.textContent = data.home.heroDesc;
+            }
+          }
+
+          // تحديث نافذة العروض السريعة (تأخذ أول 3 عروض من قاعدة البيانات)
+          if (data.offers && data.offers.length > 0) {
+            HOME_DATA.highlights = data.offers.slice(0, 3).map(o => ({
+              label: o.title,
+              price: o.price
+            }));
+            renderHighlights(); // إعادة رسم قائمة العروض بالبيانات الجديدة
+          }
+
+          // تحديث بيانات التواصل والعناوين في الأسفل والقائمة
+          if (data.contact) {
+            const dAddress = document.getElementById("drawerAddressText");
+            const dPhone = document.getElementById("drawerPhoneText");
+            const fContact = document.getElementById("footerContactText");
+            const fSocial = document.getElementById("footerSocialText");
+
+            if (dAddress) dAddress.textContent = data.contact.address;
+            if (dPhone) dPhone.textContent = data.contact.phone;
+            
+            if (fContact) {
+              fContact.innerHTML = `📍 ${data.contact.address} • 📞 <span dir="ltr">${data.contact.phone}</span>`;
+            }
+            
+            if (fSocial) {
+              fSocial.textContent = `فيسبوك: ${data.contact.facebook || ''} | انستقرام: ${data.contact.instagram || ''} | تيك توك: ${data.contact.tiktok || ''}`;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Firebase sync error:", e);
+      }
+    }
+
+    // --- هنا تبدأ الأكواد الأصلية القديمة الخاصة بك تماماً كما كانت بدون أي حذف ---
+    const HOME_DATA = {
+      storageKey: "amara_selected_services_v1",
+      screens: [
+        {
+          title: "الخدمات والأسعار",
+          desc: "تصفح فوري حسب القسم، بحث سريع، وإضافة الخدمات إلى سلة الحجز مع حساب المجموع.",
+          href: "services.html",
+          icon: "sparkles",
+          badge: "services.html"
+        },
+        {
+          title: "البكجات والعروض",
+          desc: "باقات التلبيس والجرتق وعروض الجلسات المميزة بتفاصيل واضحة وسهلة الاختيار.",
+          href: "offers.html",
+          icon: "crown",
+          badge: "offers.html"
+        },
+        {
+          title: "الحجز الذكي",
+          desc: "مراجعة الخدمات المختارة، تحديد الموعد والاسم، وتوليد رسالة واتساب جاهزة فوراً.",
+          href: "booking.html",
+          icon: "calendar-check",
+          badge: "booking.html"
+        },
+        {
+          title: "الموقع والتواصل",
+          desc: "عنوان المركز، ساعات العمل، وحسابات التواصل الاجتماعي المباشرة في مكان واحد.",
+          href: "contact.html",
+          icon: "map-pin",
+          badge: "contact.html"
+        }
+      ],
+      highlights: [
+        { label: "بكج تلبيس كامل", price: "1,300,000" },
+        { label: "بكج جرتق كامل", price: "650,000" },
+        { label: "هايدرافيشل VIP أمارا", price: "150,000" }
+      ]
+    };
+
+    function updateCartBadge() {
+      try {
+        const raw = localStorage.getItem(HOME_DATA.storageKey);
+        const items = raw ? JSON.parse(raw) : [];
+        const totalQty = items.reduce((sum, item) => sum + (Number(item.qty) || 1), 0);
+        const badge = document.getElementById("cartBadge");
+        if (badge) badge.textContent = totalQty;
+      } catch (e) {
+        console.warn("Storage error:", e);
+      }
+    }
+
+    function renderScreensGrid() {
+      const grid = document.getElementById("screensGrid");
+      if (!grid) return;
+
+      grid.innerHTML = HOME_DATA.screens.map(scr => `
+        <a href="${scr.href}" class="feature-card luxe-btn glass-panel rounded-3xl p-5 sm:p-6 flex flex-col justify-between border border-gold/25">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 text-goldDark flex items-center justify-center">
+                <i data-lucide="${scr.icon}" class="w-6 h-6"></i>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-cream text-goldDark border border-gold/20" dir="ltr">${scr.badge}</span>
+            </div>
+            <h3 class="text-lg font-black text-espresso">${scr.title}</h3>
+            <p class="text-xs sm:text-sm text-espresso/75 mt-2 leading-relaxed">${scr.desc}</p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-gold/15 flex items-center justify-between text-xs font-extrabold text-goldDark">
+            <span>فتح الشاشة</span>
+            <i data-lucide="arrow-up-left" class="w-4 h-4"></i>
+          </div>
+        </a>
+      `).join("");
+    }
+
+    function renderHighlights() {
+      const list = document.getElementById("highlightsList");
+      if (!list) return;
+
+      list.innerHTML = HOME_DATA.highlights.map(h => `
+        <div class="flex items-center justify-between px-4 py-3 rounded-2xl bg-cream border border-gold/20">
+          <span class="text-sm font-bold text-espresso">${h.label}</span>
+          <span class="text-sm font-black text-goldDark bg-white px-3 py-1 rounded-xl border border-gold/20">${h.price}</span>
+        </div>
+      `).join("");
+    }
+
+    function attachRippleEffect() {
+      document.querySelectorAll(".luxe-btn").forEach(btn => {
+        btn.addEventListener("pointerdown", function (e) {
+          const rect = btn.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const circle = document.createElement("span");
+          circle.classList.add("ripple-circle");
+          circle.style.width = circle.style.height = `${size}px`;
+          circle.style.left = `${e.clientX - rect.left - size / 2}px`;
+          circle.style.top = `${e.clientY - rect.top - size / 2}px`;
+          btn.appendChild(circle);
+          setTimeout(() => circle.remove(), 700);
+        });
+      });
+    }
+
+    function setupModalsAndDrawer() {
+      const promoModal = document.getElementById("promoModal");
+      const openPromoBtn = document.getElementById("openPromoModalBtn");
+      const closePromoBtn = document.getElementById("closePromoModalBtn");
+
+      const drawer = document.getElementById("mobileDrawer");
+      const openDrawerBtn = document.getElementById("openDrawerBtn");
+      const closeDrawerBtn = document.getElementById("closeDrawerBtn");
+
+      const openOverlay = (el) => {
+        if (!el) return;
+        el.classList.add("open");
+        document.body.style.overflow = "hidden";
+      };
+
+      const closeOverlay = (el) => {
+        if (!el) return;
+        el.classList.remove("open");
+        document.body.style.overflow = "";
+      };
+
+      openPromoBtn?.addEventListener("click", () => openOverlay(promoModal));
+      closePromoBtn?.addEventListener("click", () => closeOverlay(promoModal));
+      promoModal?.addEventListener("click", (e) => {
+        if (e.target === promoModal) closeOverlay(promoModal);
+      });
+
+      openDrawerBtn?.addEventListener("click", () => openOverlay(drawer));
+      closeDrawerBtn?.addEventListener("click", () => closeOverlay(drawer));
+      drawer?.addEventListener("click", (e) => {
+        if (e.target === drawer) closeOverlay(drawer);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeOverlay(promoModal);
+          closeOverlay(drawer);
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderScreensGrid();
+      renderHighlights();
+      updateCartBadge();
+      attachRippleEffect();
+      setupModalsAndDrawer();
+      if (window.lucide) lucide.createIcons();
+      
+      // استدعاء دالة تحديث فايربيس بعد تحميل الصفحة
+      syncWithFirebase();
+    });
+  </script>
+</body>
+</html>

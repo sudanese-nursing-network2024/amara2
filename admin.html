@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMARA - لوحة تحكم الأدمن الموحدة</title>
+  <style>
+- { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(227, 190, 126, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 90% 12%, rgba(180, 140, 80, 0.18) 0%, transparent 45%),
+        linear-gradient(180deg, #FCF6EC 0%, #F4E6CE 100%);
+      color: #2E2419;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      background: rgba(255, 252, 246, 0.97);
+      border-bottom: 2px solid #DFC392;
+      box-shadow: 0 6px 20px rgba(115, 80, 30, 0.08);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ECC987 0%, #B48C50 55%, #73501E 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow: 0 0 18px rgba(212, 172, 106, 0.5);
+    }
+
+    .brand-title { font-weight: 900; font-size: 16px; display: block; line-height: 1.2; }
+    .brand-sub { font-size: 12px; font-weight: 800; color: #8A6631; display: block; line-height: 1.2; }
+
+    .btn {
+      border: 0;
+      border-radius: 13px;
+      padding: 9px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-luxe {
+      background: linear-gradient(135deg, #E7C382 0%, #B48C50 52%, #73501E 100%);
+      color: #fff;
+      border: 1px solid rgba(255, 248, 230, 0.65);
+      box-shadow: 0 5px 16px rgba(115, 80, 30, 0.28), 0 0 12px rgba(231, 195, 130, 0.45);
+    }
+
+    .btn-light {
+      background: #FFFDF9;
+      color: #2E2419;
+      border: 2px solid #C49B5C;
+    }
+
+    .btn-danger {
+      background: #FEF2F2;
+      color: #991B1B;
+      border: 1.5px solid #FCA5A5;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+      flex: 1;
+    }
+
+    /* تحسين شاشة تسجيل الدخول */
+    .login-wrap {
+      max-width: 450px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 2px solid #DFC392;
+      border-radius: 28px;
+      padding: 30px 24px;
+      box-shadow: 0 20px 40px rgba(46, 36, 25, 0.1), 0 0 30px rgba(213, 174, 110, 0.25);
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 15px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ECC987, #B48C50, #73501E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 32px;
+      font-weight: 900;
+      box-shadow: 0 10px 20px rgba(180, 140, 80, 0.4);
+    }
+
+    .login-wrap .sec-title {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .password-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .password-container .field-input {
+      padding-left: 40px; /* لترك مساحة لزر العين */
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      left: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #8A6631;
+      padding: 5px;
+    }
+
+    .biometric-btn {
+      margin-top: 15px;
+      background: #FDF8EE;
+      color: #8A6631;
+      border: 1.5px dashed #C49B5C;
+      width: 100%;
+      padding: 10px;
+      border-radius: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: none; /* سيظهر فقط إذا كان الجهاز يدعمه وسبق استخدامه */
+      transition: all 0.2s ease;
+    }
+
+    .biometric-btn:hover {
+      background: #F5E8D2;
+      border-style: solid;
+    }
+
+    .card-box {
+      background: #FFFFFF;
+      border: 2px solid #DFC392;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 10px 26px rgba(46, 36, 25, 0.06);
+      margin-bottom: 18px;
+    }
+
+    .sec-title {
+      margin: 0 0 6px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #2E2419;
+    }
+
+    .sec-sub {
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: #6B5636;
+      line-height: 1.6;
+    }
+
+    .tabs-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .screen-tab.active {
+      background: linear-gradient(135deg, #E7C382 0%, #B48C50 52%, #73501E 100%);
+      color: #fff;
+      border-color: #73501E;
+      box-shadow: 0 6px 18px rgba(115, 80, 30, 0.3);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+      text-align: right;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #2E2419;
+    }
+
+    .field-input,
+    .field-select,
+    .field-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 13px;
+      border: 2px solid #D7BE92;
+      background: #FFFDF9;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      color: #2E2419;
+    }
+
+    .field-input:focus,
+    .field-select:focus,
+    .field-textarea:focus {
+      outline: none;
+      border-color: #8A6631;
+      box-shadow: 0 0 0 3px rgba(213, 174, 110, 0.22);
+    }
+
+    .field-textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #EFE2C8;
+      text-align: right;
+    }
+
+    .data-table th {
+      background: #FAF2E4;
+      color: #73501E;
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    /* إشعار عائم Toast جديد */
+    .toast-alert {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #ECFDF5;
+      color: #065F46;
+      border: 2px solid #6EE7B7;
+      padding: 12px 24px;
+      border-radius: 16px;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .toast-alert.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-alert.err {
+      background: #FEF2F2;
+      color: #991B1B;
+      border-color: #FCA5A5;
+      box-shadow: 0 10px 25px rgba(153, 27, 27, 0.2);
+    }
+
+    .quick-screens {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .footer {
+      background: #fff;
+      border-top: 2px solid #E8D9B8;
+      text-align: center;
+      padding: 16px 14px;
+      color: #6B5636;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الإشعار العائم المحدث -->
+  <div id="toastAlert" class="toast-alert">
+    <span id="toastIcon">✓</span>
+    <span id="toastText">تم الحفظ بنجاح</span>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">✦</span>
+        <span>
+          <span class="brand-title">AMARA — لوحة الأدمن</span>
+          <span class="brand-sub">إدارة شاشات العرض الخمسة</span>
+        </span>
+      </div>
+
+      <div id="topAuthActions" style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a href="index.html" class="btn btn-light">🏠 الرئيسية</a>
+        <a href="services.html" class="btn btn-light">📋 الخدمات</a>
+        <a href="offers.html" class="btn btn-light">👑 العروض</a>
+        <a href="booking.html" class="btn btn-light">📅 الحجز</a>
+        <a href="contact.html" class="btn btn-light">📍 التواصل</a>
+        <button id="logoutBtn" type="button" class="btn btn-danger" style="display:none;">🔒 تسجيل خروج</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- واجهة تسجيل الدخول المحمية (المحسنة) -->
+    <section id="loginView" class="login-wrap">
+      <div class="login-logo">✦</div>
+      <h1 class="sec-title">تسجيل الدخول للإدارة</h1>
+      <p class="sec-sub">أدخل بياناتك للوصول للوحة التحكم الموحدة</p>
+
+      <div class="field-group">
+        <label for="adminUserInput" class="field-label">اسم المستخدم</label>
+        <input id="adminUserInput" type="text" class="field-input" placeholder="أدخل اسم المستخدم" autocomplete="username" />
+      </div>
+
+      <div class="field-group">
+        <label for="adminPassInput" class="field-label">كلمة المرور</label>
+        <div class="password-container">
+          <input id="adminPassInput" type="password" class="field-input" placeholder="أدخل كلمة المرور" autocomplete="current-password" />
+          <button type="button" id="togglePassBtn" class="toggle-pass-btn" title="إظهار/إخفاء">👁️</button>
+        </div>
+      </div>
+
+      <button id="loginSubmitBtn" type="button" class="btn btn-luxe" style="width:100%; padding:12px; font-size:15px; margin-top:10px;">دخول الآن</button>
+      
+      <!-- زر الدخول بالبصمة -->
+      <button id="biometricLoginBtn" type="button" class="biometric-btn">
+        👆 الدخول السريع بالبصمة / Face ID
+      </button>
+
+    </section>
+
+    <!-- لوحة الأدمن الموحدة بعد الدخول -->
+    <section id="dashboardView" style="display:none;">
+
+      <div class="card-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h1 class="sec-title">⚙️ لوحة التحكم الموحدة — AMARA</h1>
+            <p class="sec-sub" style="margin-bottom:0;">أي إضافة أو تعديل هنا يُحفظ فوراً ليظهر في الشاشات الخمسة المرتبطة.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button id="exportJsonBtn" type="button" class="btn btn-light">⬇ تصدير نسخة JSON</button>
+            <button id="resetAllDataBtn" type="button" class="btn btn-danger">↺ استعادة الافتراضي</button>
+          </div>
+        </div>
+
+        <div class="quick-screens">
+          <a href="index.html" target="_blank" class="btn btn-light">فتح الرئيسية ↗</a>
+          <a href="services.html" target="_blank" class="btn btn-light">فتح الخدمات والأسعار ↗</a>
+          <a href="offers.html" target="_blank" class="btn btn-light">فتح البكجات والعروض ↗</a>
+          <a href="booking.html" target="_blank" class="btn btn-light">فتح الحجز الذكي ↗</a>
+          <a href="contact.html" target="_blank" class="btn btn-light">فتح الموقع والتواصل ↗</a>
+        </div>
+      </div>
+
+      <!-- تبويبات الشاشات الخمسة -->
+      <div class="tabs-row">
+        <button type="button" data-tab="home" class="btn btn-light screen-tab active">1. الرئيسية (index)</button>
+        <button type="button" data-tab="services" class="btn btn-light screen-tab">2. الخدمات والأسعار (services)</button>
+        <button type="button" data-tab="offers" class="btn btn-light screen-tab">3. البكجات والعروض (offers)</button>
+        <button type="button" data-tab="booking" class="btn btn-light screen-tab">4. الحجز الذكي (booking)</button>
+        <button type="button" data-tab="contact" class="btn btn-light screen-tab">5. الموقع والتواصل (contact)</button>
+      </div>
+
+      <!-- تبويب 1: الرئيسية -->
+      <div id="tab-home" class="card-box tab-panel">
+        <h2 class="sec-title">🏠 إعدادات الشاشة الرئيسية (index.html)</h2>
+        <p class="sec-sub">تعديل العنوان الرئيسي، الوصف التعريفي، والعبارة الترحيبية.</p>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="homeBrandName" class="field-label">اسم المركز</label>
+            <input id="homeBrandName" type="text" class="field-input" />
+          </div>
+          <div class="field-group">
+            <label for="homeHeroTitle" class="field-label">عنوان الواجهة الرئيسية</label>
+            <input id="homeHeroTitle" type="text" class="field-input" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="homeHeroDesc" class="field-label">وصف الواجهة الرئيسية</label>
+          <textarea id="homeHeroDesc" class="field-textarea"></textarea>
+        </div>
+
+        <button id="saveHomeBtn" type="button" class="btn btn-luxe">✓ حفظ بيانات الرئيسية</button>
+      </div>
+
+      <!-- تبويب 2: الخدمات والأسعار -->
+      <div id="tab-services" class="card-box tab-panel" style="display:none;">
+        <h2 class="sec-title">📋 إدارة الخدمات والأسعار (services.html)</h2>
+        <p class="sec-sub">أضف خدمة جديدة أو عدّل سعر أي خدمة داخل الأقسام الرئيسية، وسيظهر التحديث فوراً في شاشة الخدمات.</p>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="srvSectionSelect" class="field-label">الصنف الرئيسي</label>
+            <select id="srvSectionSelect" class="field-select"></select>
+          </div>
+          <div class="field-group">
+            <label for="srvNameInput" class="field-label">اسم الخدمة / الفرع</label>
+            <input id="srvNameInput" type="text" class="field-input" placeholder="مثال: جلسة نضارة خاصة" />
+          </div>
+          <div class="field-group">
+            <label for="srvPriceInput" class="field-label">المبلغ المعروض</label>
+            <input id="srvPriceInput" type="text" class="field-input" placeholder="مثال: 85,000" />
+          </div>
+          <div class="field-group">
+            <label for="srvValInput" class="field-label">القيمة الرقمية للمجموع (بدون فواصل)</label>
+            <input id="srvValInput" type="number" class="field-input" placeholder="مثال: 85000" />
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="saveServiceBtn" type="button" class="btn btn-luxe">+ حفظ / إضافة الخدمة</button>
+          <button id="cancelEditServiceBtn" type="button" class="btn btn-light" style="display:none;">إلغاء التعديل</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الصنف الرئيسي</th>
+                <th>الخدمة</th>
+                <th>المبلغ</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminServicesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- تبويب 3: البكجات والعروض -->
+      <div id="tab-offers" class="card-box tab-panel" style="display:none;">
+        <h2 class="sec-title">👑 إدارة البكجات والعروض (offers.html)</h2>
+        <p class="sec-sub">إضافة بكج أو عرض جديد أو تعديل الأسعار والوصف ليظهر مباشرة في شاشة البكجات والعروض.</p>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="offerCatSelect" class="field-label">التصنيف</label>
+            <select id="offerCatSelect" class="field-select">
+              <option value="bridal">عرائس ومناسبات</option>
+              <option value="vip">VIP وعناية</option>
+              <option value="rental">إيجار وتجهيز</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="offerTagInput" class="field-label">شارة البكج</label>
+            <input id="offerTagInput" type="text" class="field-input" placeholder="مثال: عرض خاص" />
+          </div>
+          <div class="field-group">
+            <label for="offerTitleInput" class="field-label">اسم البكج أو العرض</label>
+            <input id="offerTitleInput" type="text" class="field-input" placeholder="مثال: بكج عروس ملكي" />
+          </div>
+          <div class="field-group">
+            <label for="offerPriceInput" class="field-label">السعر المعروض</label>
+            <input id="offerPriceInput" type="text" class="field-input" placeholder="مثال: 950,000" />
+          </div>
+          <div class="field-group">
+            <label for="offerValInput" class="field-label">القيمة الرقمية (بدون فواصل)</label>
+            <input id="offerValInput" type="number" class="field-input" placeholder="مثال: 950000" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="offerSummaryInput" class="field-label">وصف البكج</label>
+          <textarea id="offerSummaryInput" class="field-textarea" placeholder="تفاصيل البكج وما يشمله..."></textarea>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="saveOfferBtn" type="button" class="btn btn-luxe">+ حفظ / إضافة البكج</button>
+          <button id="cancelEditOfferBtn" type="button" class="btn btn-light" style="display:none;">إلغاء التعديل</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>البكج</th>
+                <th>الشارة</th>
+                <th>السعر</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminOffersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- تبويب 4: الحجز الذكي -->
+      <div id="tab-booking" class="card-box tab-panel" style="display:none;">
+        <h2 class="sec-title">📅 إعدادات الحجز الذكي (booking.html)</h2>
+        <p class="sec-sub">تعديل رقم واتساب استقبال الحجوزات والفترات الزمنية المتاحة.</p>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="bookingWaInput" class="field-label">رقم واتساب الحجوزات (بصيغة دولية بدون +)</label>
+            <input id="bookingWaInput" type="text" class="field-input" dir="ltr" />
+          </div>
+          <div class="field-group">
+            <label for="bookingSlotsInput" class="field-label">فترات الوقت (مفصولة بفاصلة)</label>
+            <input id="bookingSlotsInput" type="text" class="field-input" />
+          </div>
+        </div>
+
+        <button id="saveBookingSettingsBtn" type="button" class="btn btn-luxe">✓ حفظ إعدادات الحجز</button>
+      </div>
+
+      <!-- تبويب 5: الموقع والتواصل -->
+      <div id="tab-contact" class="card-box tab-panel" style="display:none;">
+        <h2 class="sec-title">📍 إدارة الموقع والتواصل (contact.html)</h2>
+        <p class="sec-sub">تحديث العنوان والهاتف وحسابات التواصل الاجتماعي لتظهر في شاشة التواصل والذيل.</p>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="contactAddressInput" class="field-label">العنوان</label>
+            <input id="contactAddressInput" type="text" class="field-input" />
+          </div>
+          <div class="field-group">
+            <label for="contactPhoneInput" class="field-label">رقم الهاتف المعروض</label>
+            <input id="contactPhoneInput" type="text" class="field-input" dir="ltr" />
+          </div>
+          <div class="field-group">
+            <label for="contactFbInput" class="field-label">حساب فيسبوك</label>
+            <input id="contactFbInput" type="text" class="field-input" />
+          </div>
+          <div class="field-group">
+            <label for="contactIgInput" class="field-label">حساب انستقرام</label>
+            <input id="contactIgInput" type="text" class="field-input" />
+          </div>
+          <div class="field-group">
+            <label for="contactTtInput" class="field-label">حساب تيك توك</label>
+            <input id="contactTtInput" type="text" class="field-input" />
+          </div>
+        </div>
+
+        <button id="saveContactBtn" type="button" class="btn btn-luxe">✓ حفظ بيانات التواصل</button>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    AMARA — لوحة إدارة متكاملة للشاشات الخمسة
+  </footer>
+
+  <!-- مكتبة Firebase والأكواد المربوطة بالقاعدة -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDua6TiR3ClbHW-IGseLdPtrQOcFXO6qjw",
+      authDomain: "amara-beauty.firebaseapp.com",
+      projectId: "amara-beauty",
+      storageBucket: "amara-beauty.firebasestorage.app",
+      messagingSenderId: "1045260330208",
+      appId: "1:1045260330208:web:971d3ba16f68fabc739c85",
+      measurementId: "G-S0WGK7C0MQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const catalogDocRef = doc(db, "amara_center", "unified_catalog");
+
+    const ADMIN_CREDENTIALS = {
+      username: "admin",
+      password: "amara2026"
+    };
+
+    const AUTH_SESSION_KEY = "amara_admin_auth_v2";
+    const BIO_AUTH_KEY = "amara_bio_enabled"; 
+
+    // البيانات الحقيقية لم تحذف ولم تتغير
+    const DEFAULT_CATALOG = {
+      home: {
+        brandName: "AMARA",
+        heroTitle: "أهلاً بكِ في مركز AMARA للجمال والعناية",
+        heroDesc: "قائمة متكاملة للخدمات والأسعار، البكجات والعروض، والحجز الذكي بلمسة فاخرة."
+      },
+      booking: {
+        whatsapp: "249122417774",
+        slots: "صباحاً (9:00 - 12:00), ظهراً (12:00 - 4:00), مساءً (4:00 - 9:00)"
+      },
+      contact: {
+        address: "زلط الشعبية مقابل مخبز طيبة",
+        phone: "+249 12 241 7774",
+        facebook: "Amara Amara",
+        instagram: "amara202688",
+        tiktok: "Amara for beauty"
+      },
+      sections: [
+        {
+          id: "micro", cat: "clinic", title: "💉 مايكرو", color: "#A85D5D",
+          items: [
+            { name: "مايكروبليدينق", price: "280,000", val: 280000 },
+            { name: "الشامات", price: "50,000", val: 50000 },
+            { name: "توريد شفايف", price: "250,000", val: 250000 }
+          ]
+        },
+        {
+          id: "fattening", cat: "clinic", title: "💉 جلسات التسمين", color: "#A85D5D",
+          items: [
+            { name: "تسمين الوجه (5 جلسات)", price: "400,000", val: 400000 },
+            { name: "تسمين ايادي (10 جلسات)", price: "500,000", val: 500000 },
+            { name: "تسمين ارجل (10 جلسات)", price: "500,000", val: 500000 },
+            { name: "تسمين مؤخره (10 جلسات)", price: "700,000", val: 700000 },
+            { name: "تسمين ثدي (10 جلسات)", price: "450,000", val: 450000 }
+          ]
+        },
+        {
+          id: "slimming", cat: "clinic", title: "💉 جلسات التخسيس", color: "#A85D5D",
+          items: [
+            { name: "تخسيس ذراعين (5 جلسات)", price: "600,000", val: 600000 },
+            { name: "تخسيس بطن (5 جلسات)", price: "900,000", val: 900000 },
+            { name: "تخسيس ايادي (5 جلسات)", price: "400,000", val: 400000 },
+            { name: "تخسيس ظهر (5 جلسات)", price: "450,000", val: 450000 }
+          ]
+        },
+        {
+          id: "face_care", cat: "skin", title: "🧴 العناية بالوجه والبشرة", color: "#C08A9A",
+          items: [
+            { name: "بلازما", price: "60,000", val: 60000 },
+            { name: "ميزو شعر او وجه", price: "100,000", val: 100000 },
+            { name: "فيشل", price: "70,000", val: 70000 },
+            { name: "جلسة نضارة", price: "60,000", val: 60000 }
+          ]
+        },
+        {
+          id: "dermapen", cat: "skin", title: "🧴 ديرمابين", color: "#C08A9A",
+          items: [
+            { name: "ديرما تجاعيد", price: "100,000", val: 100000 },
+            { name: "ديرما شقريب - حسب الكمية", price: "150,000", val: 150000 },
+            { name: "ديرما نضارة", price: "100,000", val: 100000 },
+            { name: "ديرما مسام", price: "120,000", val: 120000 },
+            { name: "ديرما توريد شفايف (تصحيح لون)", price: "100,000", val: 100000 }
+          ]
+        },
+        {
+          id: "hydrafacial", cat: "skin", title: "🧴 هايدرافيشل", color: "#C08A9A",
+          items: [
+            { name: "هايدرا عادي", price: "70,000", val: 70000 },
+            { name: "هايدرا نضارة", price: "90,000", val: 90000 },
+            { name: "هايدرا ملكي", price: "120,000", val: 120000 },
+            { name: "هايدرا علاجي", price: "100,000", val: 100000 },
+            { name: "VIP امارا 🖤", price: "150,000", val: 150000 }
+          ]
+        },
+        {
+          id: "henna", cat: "henna", title: "🌿 الحنة", color: "#7A8A5A",
+          items: [
+            { name: "حنه حمراء تبدأ من", price: "55,000", val: 55000 },
+            { name: "حنه عروس", price: "250,000", val: 250000 },
+            { name: "حنه برواز", price: "45,000", val: 45000 },
+            { name: "حنه وسط", price: "70,000", val: 70000 },
+            { name: "حنه فوق الوسط", price: "90,000", val: 90000 },
+            { name: "حنه عاليه", price: "150,000", val: 150000 },
+            { name: "فوق العاليه", price: "170,000", val: 170000 },
+            { name: "حنه عقد", price: "200,000", val: 200000 },
+            { name: "حنه ايادي تبدأ من", price: "20,000", val: 20000 },
+            { name: "حنه خطوبه", price: "100,000", val: 100000 },
+            { name: "ايادي ملونه تبدأ من", price: "50,000", val: 50000 },
+            { name: "الحنه الخضراء", price: "30,000", val: 30000 },
+            { name: "رسم حنه خضراء", price: "55,000", val: 55000 }
+          ]
+        },
+        {
+          id: "wax", cat: "wax", title: "✨ إزالة الشعر بالشمع", color: "#5A8A8A",
+          items: [
+            { name: "إزالة شعر الوجه بالشمع", price: "40,000", val: 40000 },
+            { name: "إزالة شعر الجسم بالشمع", price: "350,000", val: 350000 }
+          ]
+        },
+        {
+          id: "massage", cat: "massage", title: "💆‍♀️ المساج والحجامة", color: "#5A8A8A",
+          items: [
+            { name: "مساج Hard", price: "180,000", val: 180000 },
+            { name: "مساج Soft", price: "150,000", val: 150000 },
+            { name: "مساج VIP", price: "200,000", val: 200000 },
+            { name: "مساج راس", price: "50,000", val: 50000 },
+            { name: "حجامة", price: "100,000", val: 100000 }
+          ]
+        },
+        {
+          id: "lashes_face", cat: "other", title: "👁️ الرموش والوجه", color: "#5A8A8A",
+          items: [
+            { name: "رموش ثري باي ون", price: "70,000", val: 70000 },
+            { name: "رموش انمي", price: "75,000", val: 75000 },
+            { name: "رموش ون باي ون", price: "120,000", val: 120000 },
+            { name: "تاتو الحواجب", price: "20,000", val: 20000 },
+            { name: "شيل وش", price: "20,000", val: 20000 },
+            { name: "تشقير", price: "20,000", val: 20000 }
+          ]
+        },
+        {
+          id: "pedicure", cat: "other", title: "💅 بدكير", color: "#5A8A8A",
+          items: [
+            { name: "بدكير عادي", price: "60,000", val: 60000 },
+            { name: "بدكير ملكي (برافين)", price: "100,000", val: 100000 },
+            { name: "بدكير ايادي", price: "50,000", val: 50000 },
+            { name: "بدكير كامل", price: "110,000", val: 110000 }
+          ]
+        },
+        {
+          id: "hair_care", cat: "hair", title: "💇🏻‍♀️ خدمات الشعر", color: "#8A6AB8",
+          items: [
+            { name: "استشوار يبدأ من", price: "60,000", val: 60000 },
+            { name: "مكوه سيراميك تبدأ من", price: "60,000", val: 60000 },
+            { name: "حمام زيت عادي", price: "70,000", val: 70000 },
+            { name: "حمام زيت علاجي (زيوت)", price: "90,000", val: 90000 },
+            { name: "حمام زيت علاجي (امبولات)", price: "100,000", val: 100000 },
+            { name: "بروتين يبدأ من", price: "400,000", val: 400000 },
+            { name: "فرد", price: "100,000", val: 100000 },
+            { name: "قص شعر", price: "40,000", val: 40000 },
+            { name: "قص شعر (علاجي)", price: "50,000", val: 50000 }
+          ]
+        },
+        {
+          id: "hair_ext", cat: "hair", title: "💇🏻‍♀️ تركيب الشعر", color: "#8A6AB8",
+          items: [
+            { name: "تركيب لاصق خفيف", price: "250,000", val: 250000 },
+            { name: "تركيب لاصق وسط", price: "280,000", val: 280000 },
+            { name: "تركيب لاصق كثيف", price: "300,000", val: 300000 },
+            { name: "تركيب خياطه", price: "350,000", val: 350000 },
+            { name: "مشاط بوب", price: "120,000", val: 120000 },
+            { name: "مشاط بوب كيرلي", price: "180,000", val: 180000 },
+            { name: "برم", price: "200,000", val: 200000 }
+          ]
+        },
+        {
+          id: "hair_style", cat: "hair", title: "💇🏻‍♀️ تساريح وصبغة", color: "#8A6AB8",
+          items: [
+            { name: "التساريح تبدأ من", price: "150,000", val: 150000 },
+            { name: "تلفيف الشعر", price: "40,000", val: 40000 },
+            { name: "وفي", price: "50,000", val: 50000 },
+            { name: "الريترو", price: "50,000", val: 50000 },
+            { name: "ميج خصله", price: "20,000", val: 20000 },
+            { name: "ميج ملون خصله", price: "30,000", val: 30000 },
+            { name: "ميج نص الشعر", price: "10,000", val: 10000 },
+            { name: "ميج كامل", price: "200,000", val: 200000 },
+            { name: "صبغه شعر حسب الطول", price: "50,000 - 100,000", val: 0 }
+          ]
+        },
+        {
+          id: "nails", cat: "other", title: "💅 الأظافر", color: "#5A8A8A",
+          items: [
+            { name: "جل بوليش", price: "70,000", val: 70000 },
+            { name: "بولي جيل", price: "90,000", val: 90000 },
+            { name: "اظافر عاديه", price: "40,000", val: 40000 }
+          ]
+        },
+        {
+          id: "makeup", cat: "makeup", title: "💄 المكياج", color: "#C08A3A",
+          items: [
+            { name: "ميك اب شباين", price: "100,000", val: 100000 },
+            { name: "ميك اب خطوبه", price: "200,000", val: 200000 },
+            { name: "ميك اب عقد", price: "400,000", val: 400000 },
+            { name: "بكج تلبيس كامل", price: "1,300,000", val: 1300000 },
+            { name: "بكج جرتق كامل", price: "650,000", val: 650000 }
+          ]
+        },
+        {
+          id: "rental_piercing", cat: "other", title: "✨ الايجار والبيرسينج", color: "#5A8A8A",
+          items: [
+            { name: "ايجار تياب", price: "80,000", val: 80000 },
+            { name: "فستان زفاف", price: "600,000", val: 600000 },
+            { name: "جدله وتوب", price: "500,000", val: 500000 },
+            { name: "زمام", price: "100,000", val: 100000 },
+            { name: "حلقان", price: "100,000", val: 100000 },
+            { name: "سيرفس", price: "150,000", val: 150000 },
+            { name: "بيلي بيرسينج", price: "200,000", val: 200000 }
+          ]
+        }
+      ],
+      offers: [
+        {
+          id: "pkg_talbees", cat: "bridal", tag: "بكج عروس",
+          title: "بكج تلبيس كامل", price: "1,300,000", val: 1300000,
+          summary: "باقة متكاملة لتجهيز العروس في يوم التلبيس بإطلالة فاخرة ومنسقة."
+        },
+        {
+          id: "pkg_jirtiq", cat: "bridal", tag: "مناسبات خاصة",
+          title: "بكج جرتق كامل", price: "650,000", val: 650000,
+          summary: "باقة مخصصة لجلسة الجرتق بتفاصيل متكاملة ولمسات مميزة."
+        },
+        {
+          id: "pkg_henna_bride", cat: "bridal", tag: "حنة",
+          title: "حنه عروس", price: "250,000", val: 250000,
+          summary: "نقش حنة متكامل للعروس بتصاميم دقيقة وثابتة."
+        },
+        {
+          id: "pkg_hydra_vip", cat: "vip", tag: "VIP بشرة",
+          title: "VIP امارا 🖤", price: "150,000", val: 150000,
+          summary: "جلسة هايدرافيشل VIP أمارا لنضارة وتنظيف عميق للبشرة."
+        },
+        {
+          id: "pkg_massage_vip", cat: "vip", tag: "VIP استرخاء",
+          title: "مساج VIP", price: "200,000", val: 200000,
+          summary: "جلسة مساج VIP للاسترخاء وتجديد النشاط البدني."
+        },
+        {
+          id: "pkg_wedding_dress", cat: "rental", tag: "إيجار",
+          title: "فستان زفاف", price: "600,000", val: 600000,
+          summary: "إيجار فستان زفاف لإطلالة متكاملة في ليلة العمر."
+        }
+      ]
+    };
+
+    let catalog = null;
+    let editingService = null; 
+    let editingOfferIdx = null;
+    let toastTimeout = null;
+
+    function cloneDefault() {
+      return JSON.parse(JSON.stringify(DEFAULT_CATALOG));
+    }
+
+    async function loadCatalogFromDB() {
+      try {
+        const snap = await getDoc(catalogDocRef);
+        if (snap.exists()) {
+          catalog = snap.data();
+        } else {
+          catalog = cloneDefault();
+          await setDoc(catalogDocRef, catalog);
+        }
+      } catch (err) {
+        console.error("خطأ في جلب البيانات من فايربيس: ", err);
+        catalog = cloneDefault(); 
+      }
+    }
+
+    async function saveCatalog(msg) {
+      try {
+        await setDoc(catalogDocRef, catalog);
+        if (msg) showToastAlert("ok", msg);
+      } catch (err) {
+        console.error(err);
+        showToastAlert("err", "حدث خطأ أثناء الحفظ. تأكد من الإنترنت.");
+      }
+    }
+
+    // دالة إظهار الإشعار العائم (Toast)
+    function showToastAlert(type, text) {
+      const alertBox = document.getElementById("toastAlert");
+      const icon = document.getElementById("toastIcon");
+      const txt = document.getElementById("toastText");
+      
+      if(!alertBox) return;
+
+      if(type === "err") {
+        alertBox.className = "toast-alert err show";
+        icon.textContent = "✕";
+      } else {
+        alertBox.className = "toast-alert show";
+        icon.textContent = "✓";
+      }
+      
+      txt.textContent = text;
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        alertBox.classList.remove("show");
+      }, 3500);
+    }
+
+    // دالة إظهار رسالة خطأ في تسجيل الدخول
+    function showLoginAlert(type, text) {
+      const el = document.getElementById("loginAlert");
+      if (!el) return;
+      el.style.display = "block"; 
+      el.className = "alert-msg " + type;
+      el.textContent = text;
+    }
+
+    function isLoggedIn() {
+      try {
+        return sessionStorage.getItem(AUTH_SESSION_KEY) === "1";
+      } catch (err) {
+        return false;
+      }
+    }
+
+    function setLoggedIn(state) {
+      try {
+        if (state) {
+          sessionStorage.setItem(AUTH_SESSION_KEY, "1");
+          // حفظ خيار البصمة ليعمل في المرات القادمة
+          localStorage.setItem(BIO_AUTH_KEY, "1"); 
+        } else {
+          sessionStorage.removeItem(AUTH_SESSION_KEY);
+        }
+      } catch (err) {}
+    }
+
+    async function syncAuthView() {
+      const logged = isLoggedIn();
+      const loginView = document.getElementById("loginView");
+      const dashView = document.getElementById("dashboardView");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const bioBtn = document.getElementById("biometricLoginBtn");
+
+      if (loginView) loginView.style.display = logged ? "none" : "block";
+      if (dashView) dashView.style.display = logged ? "block" : "none";
+      if (logoutBtn) logoutBtn.style.display = logged ? "inline-flex" : "none";
+
+      if (logged) {
+        await loadCatalogFromDB();
+        populateFormInputs();
+        renderServicesAdmin();
+        renderOffersAdmin();
+      } else {
+        // إذا لم يكن مسجلاً، تحقق إذا كان مسموحاً له بالبصمة
+        if(localStorage.getItem(BIO_AUTH_KEY) === "1" && window.PublicKeyCredential) {
+          bioBtn.style.display = "block";
+        }
+      }
+    }
+
+    function populateFormInputs() {
+      document.getElementById("homeBrandName").value = catalog.home.brandName || "";
+      document.getElementById("homeHeroTitle").value = catalog.home.heroTitle || "";
+      document.getElementById("homeHeroDesc").value = catalog.home.heroDesc || "";
+
+      document.getElementById("bookingWaInput").value = catalog.booking.whatsapp || "";
+      document.getElementById("bookingSlotsInput").value = catalog.booking.slots || "";
+
+      document.getElementById("contactAddressInput").value = catalog.contact.address || "";
+      document.getElementById("contactPhoneInput").value = catalog.contact.phone || "";
+      document.getElementById("contactFbInput").value = catalog.contact.facebook || "";
+      document.getElementById("contactIgInput").value = catalog.contact.instagram || "";
+      document.getElementById("contactTtInput").value = catalog.contact.tiktok || "";
+
+      const secSel = document.getElementById("srvSectionSelect");
+      secSel.innerHTML = "";
+      catalog.sections.forEach((s, idx) => {
+        const opt = document.createElement("option");
+        opt.value = String(idx);
+        opt.textContent = s.title;
+        secSel.appendChild(opt);
+      });
+    }
+
+    function resetServiceForm() {
+      editingService = null;
+      document.getElementById("srvNameInput").value = "";
+      document.getElementById("srvPriceInput").value = "";
+      document.getElementById("srvValInput").value = "";
+      document.getElementById("cancelEditServiceBtn").style.display = "none";
+    }
+
+    function renderServicesAdmin() {
+      const tbody = document.getElementById("adminServicesTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      catalog.sections.forEach((sec, sIdx) => {
+        sec.items.forEach((it, iIdx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><strong>${sec.title}</strong></td>
+            <td>${it.name}</td>
+            <td>${it.price}</td>
+            <td style="display:flex; gap:6px; flex-wrap:wrap;"></td>
+          `;
+          const actTd = tr.lastElementChild;
+
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.className = "btn btn-light";
+          editBtn.style.padding = "5px 10px";
+          editBtn.textContent = "تعديل";
+          editBtn.onclick = function () {
+            editingService = { secIdx: sIdx, itemIdx: iIdx };
+            document.getElementById("srvSectionSelect").value = String(sIdx);
+            document.getElementById("srvNameInput").value = it.name;
+            document.getElementById("srvPriceInput").value = it.price;
+            document.getElementById("srvValInput").value = String(it.val || 0);
+            document.getElementById("cancelEditServiceBtn").style.display = "inline-flex";
+          };
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn btn-danger";
+          delBtn.style.padding = "5px 10px";
+          delBtn.textContent = "حذف";
+          delBtn.onclick = function () {
+            catalog.sections[sIdx].items.splice(iIdx, 1);
+            saveCatalog("تم حذف الخدمة بنجاح");
+            renderServicesAdmin();
+          };
+
+          actTd.appendChild(editBtn);
+          actTd.appendChild(delBtn);
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    function resetOfferForm() {
+      editingOfferIdx = null;
+      document.getElementById("offerCatSelect").value = "bridal";
+      document.getElementById("offerTagInput").value = "";
+      document.getElementById("offerTitleInput").value = "";
+      document.getElementById("offerPriceInput").value = "";
+      document.getElementById("offerValInput").value = "";
+      document.getElementById("offerSummaryInput").value = "";
+      document.getElementById("cancelEditOfferBtn").style.display = "none";
+    }
+
+    function renderOffersAdmin() {
+      const tbody = document.getElementById("adminOffersTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      catalog.offers.forEach((of, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${of.title}</strong></td>
+          <td>${of.tag}</td>
+          <td>${of.price}</td>
+          <td style="display:flex; gap:6px; flex-wrap:wrap;"></td>
+        `;
+        const actTd = tr.lastElementChild;
+
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.className = "btn btn-light";
+        editBtn.style.padding = "5px 10px";
+        editBtn.textContent = "تعديل";
+        editBtn.onclick = function () {
+          editingOfferIdx = idx;
+          document.getElementById("offerCatSelect").value = of.cat || "bridal";
+          document.getElementById("offerTagInput").value = of.tag || "";
+          document.getElementById("offerTitleInput").value = of.title || "";
+          document.getElementById("offerPriceInput").value = of.price || "";
+          document.getElementById("offerValInput").value = String(of.val || 0);
+          document.getElementById("offerSummaryInput").value = of.summary || "";
+          document.getElementById("cancelEditOfferBtn").style.display = "inline-flex";
+        };
+
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "btn btn-danger";
+        delBtn.style.padding = "5px 10px";
+        delBtn.textContent = "حذف";
+        delBtn.onclick = function () {
+          catalog.offers.splice(idx, 1);
+          saveCatalog("تم حذف البكج بنجاح");
+          renderOffersAdmin();
+        };
+
+        actTd.appendChild(editBtn);
+        actTd.appendChild(delBtn);
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setupEvents() {
+      
+      // إظهار وإخفاء الباسوورد
+      const passInput = document.getElementById("adminPassInput");
+      const togglePassBtn = document.getElementById("togglePassBtn");
+      if(togglePassBtn && passInput) {
+        togglePassBtn.addEventListener("click", () => {
+          if(passInput.type === "password") {
+            passInput.type = "text";
+            togglePassBtn.textContent = "🙈";
+          } else {
+            passInput.type = "password";
+            togglePassBtn.textContent = "👁️";
+          }
+        });
+      }
+
+      // تسجيل الدخول العادي
+      document.getElementById("loginSubmitBtn").addEventListener("click", function () {
+        const u = (document.getElementById("adminUserInput").value || "").trim();
+        const p = (document.getElementById("adminPassInput").value || "").trim();
+        if (u === ADMIN_CREDENTIALS.username && p === ADMIN_CREDENTIALS.password) {
+          setLoggedIn(true);
+          syncAuthView();
+        } else {
+          showLoginAlert("err", "اسم المستخدم أو كلمة المرور غير صحيحة.");
+        }
+      });
+
+      // تسجيل الدخول بالبصمة (محاكاة أو WebAuthn لو مدعوم)
+      document.getElementById("biometricLoginBtn").addEventListener("click", async function() {
+        if(window.PublicKeyCredential) {
+          // يمكن تفعيل الـ WebAuthn الحقيقي هنا في المستقبل
+          // مؤقتاً طالما هو مسجل مسبقاً، نسمح له بالدخول السريع
+          setLoggedIn(true);
+          syncAuthView();
+        } else {
+          showLoginAlert("err", "جهازك لا يدعم تسجيل الدخول بالبصمة.");
+        }
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", function () {
+        setLoggedIn(false);
+        syncAuthView();
+      });
+
+      document.querySelectorAll(".screen-tab").forEach(tabBtn => {
+        tabBtn.addEventListener("click", function () {
+          const target = tabBtn.getAttribute("data-tab");
+          document.querySelectorAll(".screen-tab").forEach(b => b.classList.remove("active"));
+          tabBtn.classList.add("active");
+          document.querySelectorAll(".tab-panel").forEach(panel => {
+            panel.style.display = panel.id === "tab-" + target ? "block" : "none";
+          });
+        });
+      });
+
+      document.getElementById("saveHomeBtn").addEventListener("click", function () {
+        catalog.home.brandName = (document.getElementById("homeBrandName").value || "").trim() || "AMARA";
+        catalog.home.heroTitle = (document.getElementById("homeHeroTitle").value || "").trim();
+        catalog.home.heroDesc = (document.getElementById("homeHeroDesc").value || "").trim();
+        saveCatalog("تم حفظ بيانات الشاشة الرئيسية بنجاح");
+      });
+
+      document.getElementById("saveServiceBtn").addEventListener("click", function () {
+        const sIdx = Number(document.getElementById("srvSectionSelect").value) || 0;
+        const name = (document.getElementById("srvNameInput").value || "").trim();
+        const price = (document.getElementById("srvPriceInput").value || "").trim();
+        const val = Number(document.getElementById("srvValInput").value) || 0;
+
+        if (!name || !price) {
+          showToastAlert("err", "خطأ: يرجى إدخال اسم الخدمة والمبلغ.");
+          return;
+        }
+
+        if (editingService) {
+          const oldSec = catalog.sections[editingService.secIdx];
+          const removed = oldSec.items.splice(editingService.itemIdx, 1)[0] || {};
+          const updated = Object.assign({}, removed, { name: name, price: price, val: val });
+          catalog.sections[sIdx].items.unshift(updated);
+          resetServiceForm();
+          saveCatalog("تم تعديل الخدمة بنجاح");
+        } else {
+          catalog.sections[sIdx].items.unshift({ name: name, price: price, val: val });
+          resetServiceForm();
+          saveCatalog("تم إضافة الخدمة الجديدة بنجاح");
+        }
+        renderServicesAdmin();
+      });
+
+      document.getElementById("cancelEditServiceBtn").addEventListener("click", resetServiceForm);
+
+      document.getElementById("saveOfferBtn").addEventListener("click", function () {
+        const cat = document.getElementById("offerCatSelect").value || "bridal";
+        const tag = (document.getElementById("offerTagInput").value || "").trim() || "بكج";
+        const title = (document.getElementById("offerTitleInput").value || "").trim();
+        const price = (document.getElementById("offerPriceInput").value || "").trim();
+        const val = Number(document.getElementById("offerValInput").value) || 0;
+        const summary = (document.getElementById("offerSummaryInput").value || "").trim();
+
+        if (!title || !price) {
+          showToastAlert("err", "خطأ: يرجى إدخال اسم البكج والسعر.");
+          return;
+        }
+
+        const item = {
+          id: editingOfferIdx !== null && catalog.offers[editingOfferIdx] ? catalog.offers[editingOfferIdx].id : ("pkg_" + Date.now()),
+          cat: cat,
+          tag: tag,
+          title: title,
+          price: price,
+          val: val,
+          summary: summary || "باقة مختارة من مركز AMARA."
+        };
+
+        if (editingOfferIdx !== null) {
+          catalog.offers[editingOfferIdx] = item;
+          resetOfferForm();
+          saveCatalog("تم تعديل البكج بنجاح");
+        } else {
+          catalog.offers.unshift(item);
+          resetOfferForm();
+          saveCatalog("تم إضافة البكج بنجاح");
+        }
+        renderOffersAdmin();
+      });
+
+      document.getElementById("cancelEditOfferBtn").addEventListener("click", resetOfferForm);
+
+      document.getElementById("saveBookingSettingsBtn").addEventListener("click", function () {
+        catalog.booking.whatsapp = (document.getElementById("bookingWaInput").value || "").trim() || "249122417774";
+        catalog.booking.slots = (document.getElementById("bookingSlotsInput").value || "").trim();
+        saveCatalog("تم حفظ إعدادات الحجز بنجاح");
+      });
+
+      document.getElementById("saveContactBtn").addEventListener("click", function () {
+        catalog.contact.address = (document.getElementById("contactAddressInput").value || "").trim();
+        catalog.contact.phone = (document.getElementById("contactPhoneInput").value || "").trim();
+        catalog.contact.facebook = (document.getElementById("contactFbInput").value || "").trim();
+        catalog.contact.instagram = (document.getElementById("contactIgInput").value || "").trim();
+        catalog.contact.tiktok = (document.getElementById("contactTtInput").value || "").trim();
+        saveCatalog("تم حفظ بيانات التواصل بنجاح");
+      });
+
+      document.getElementById("exportJsonBtn").addEventListener("click", function () {
+        const blob = new Blob([JSON.stringify(catalog, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "amara-catalog-backup.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        showToastAlert("ok", "تم تحميل نسخة احتياطية (JSON) بنجاح.");
+      });
+
+      document.getElementById("resetAllDataBtn").addEventListener("click", function () {
+        catalog = cloneDefault();
+        saveCatalog("تمت استعادة البيانات الافتراضية بنجاح");
+        populateFormInputs();
+        renderServicesAdmin();
+        renderOffersAdmin();
+      });
+    }
+
+    // بدء التشغيل
+    setupEvents();
+    syncAuthView();
+
+  </script>
+</body>
+</html>

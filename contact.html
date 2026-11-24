@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMARA - الموقع والتواصل</title>
+  <style>
+- { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(227, 190, 126, 0.24) 0%, transparent 42%),
+        radial-gradient(circle at 88% 15%, rgba(180, 140, 80, 0.18) 0%, transparent 45%),
+        linear-gradient(180deg, #FCF6EC 0%, #F5E8D2 100%);
+      color: #2E2419;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* الشريط العلوي الفاخر */
+    .topbar {
+      background: rgba(255, 252, 246, 0.96);
+      border-bottom: 2px solid #DFC392;
+      box-shadow: 0 8px 24px rgba(125, 90, 39, 0.08);
+    }
+
+    .topbar-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #F0CE8E 0%, #B48C50 55%, #73501E 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 900;
+      box-shadow: 0 0 20px rgba(208, 166, 98, 0.55);
+    }
+
+    .brand-title { font-weight: 900; font-size: 17px; display: block; line-height: 1.2; }
+    .brand-sub { font-size: 12px; font-weight: 800; color: #8A6631; display: block; line-height: 1.2; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 7px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #FAF2E4;
+      color: #2E2419;
+      border: 1px solid #DFC392;
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .nav-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(212, 172, 106, 0.35);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #D5AE6E, #8A6631);
+      color: #fff;
+      border-color: #8A6631;
+      box-shadow: 0 0 16px rgba(180, 140, 80, 0.45);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* أزرار مكتبية فاخرة متفاعلة */
+    .luxe-action {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      border-radius: 14px;
+      padding: 10px 15px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.16s ease, box-shadow 0.18s ease, filter 0.16s ease;
+    }
+
+    .luxe-action:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    .luxe-action:active {
+      transform: scale(0.96);
+    }
+
+    .luxe-primary {
+      background: linear-gradient(135deg, #ECC987 0%, #B48C50 52%, #73501E 100%);
+      color: #fff;
+      border: 1px solid rgba(255, 248, 230, 0.65);
+      box-shadow: 0 6px 20px rgba(115, 80, 30, 0.32), 0 0 16px rgba(236, 201, 135, 0.55);
+    }
+
+    .luxe-primary:hover {
+      box-shadow: 0 9px 24px rgba(115, 80, 30, 0.42), 0 0 24px rgba(236, 201, 135, 0.8);
+    }
+
+    .luxe-outline {
+      background: linear-gradient(180deg, #FFFFFF 0%, #FDF8EE 100%);
+      color: #2E2419;
+      border: 2px solid #C49B5C;
+      box-shadow: 0 4px 14px rgba(138, 102, 49, 0.14);
+    }
+
+    .luxe-outline:hover {
+      box-shadow: 0 7px 18px rgba(138, 102, 49, 0.24), 0 0 14px rgba(227, 190, 126, 0.4);
+    }
+
+    .ripple-wave {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleAnim 0.55s ease-out;
+      background: rgba(255, 255, 255, 0.55);
+      pointer-events: none;
+    }
+
+    @keyframes rippleAnim {
+      to {
+        transform: scale(3.6);
+        opacity: 0;
+      }
+    }
+
+    .badge-num {
+      background: #73501E;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .container {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 22px 16px 105px;
+      flex: 1;
+    }
+
+    .hero-box {
+      background: linear-gradient(135deg, rgba(255, 253, 248, 0.98) 0%, rgba(252, 243, 224, 0.98) 100%);
+      border: 2px solid #DFC392;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(115, 80, 30, 0.08), 0 0 26px rgba(227, 190, 126, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      margin: 0 0 6px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #2E2419;
+      line-height: 1.3;
+    }
+
+    .page-sub {
+      margin: 0;
+      font-size: 14px;
+      color: #6B5636;
+      line-height: 1.65;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    .luxe-panel {
+      background: #FFFFFF;
+      border: 2px solid #DFC392;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(46, 36, 25, 0.06), 0 0 20px rgba(213, 174, 110, 0.14);
+    }
+
+    .panel-title {
+      margin: 0 0 14px;
+      font-size: 19px;
+      font-weight: 900;
+      color: #2E2419;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid #F0E4CE;
+    }
+
+    .info-strip {
+      background: linear-gradient(135deg, #FFFDF8, #FAF1E1);
+      border: 1.5px solid #E3C99B;
+      border-radius: 16px;
+      padding: 13px 14px;
+      margin-bottom: 12px;
+    }
+
+    .info-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #8A6631;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .info-val {
+      font-size: 15px;
+      font-weight: 900;
+      color: #2E2419;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .social-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #FFFDF9;
+      border: 1.5px solid #E5CFA8;
+      margin-bottom: 10px;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #2E2419;
+    }
+
+    .field-input,
+    .field-textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 14px;
+      border: 2px solid #D7BE92;
+      background: #FFFDF9;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      color: #2E2419;
+    }
+
+    .field-input:focus,
+    .field-textarea:focus {
+      outline: none;
+      border-color: #8A6631;
+      box-shadow: 0 0 0 3px rgba(213, 174, 110, 0.25);
+    }
+
+    .field-error {
+      border-color: #B91C1C !important;
+      background: #FEF2F2 !important;
+    }
+
+    .field-textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    .feedback-box {
+      margin-top: 10px;
+      padding: 10px 13px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .feedback-box.err {
+      display: block;
+      background: #FEF2F2;
+      color: #991B1B;
+      border: 1.5px solid #FCA5A5;
+    }
+
+    .feedback-box.ok {
+      display: block;
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1.5px solid #6EE7B7;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.18);
+    }
+
+    /* الزر العائم للشاشات */
+    .fab-wrap {
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      z-index: 60;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .fab-list {
+      display: none;
+      flex-direction: column-reverse;
+      gap: 6px;
+    }
+
+    .fab-wrap.open .fab-list {
+      display: flex;
+    }
+
+    .fab-main {
+      width: 56px;
+      height: 56px;
+      border-radius: 19px;
+      border: 2px solid #fff;
+      background: linear-gradient(135deg, #ECC987, #B48C50, #73501E);
+      color: #fff;
+      font-size: 21px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(115, 80, 30, 0.45), 0 0 20px rgba(236, 201, 135, 0.65);
+    }
+
+    .fab-item {
+      background: #fff;
+      color: #2E2419;
+      border: 1.5px solid #B48C50;
+      border-radius: 13px;
+      padding: 8px 13px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .fab-item:hover {
+      background: #B48C50;
+      color: #fff;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(46, 36, 25, 0.6);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border: 2px solid #B48C50;
+      border-radius: 22px;
+      width: 100%;
+      max-width: 450px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #EFE4CE;
+    }
+
+    .footer {
+      background: #fff;
+      border-top: 2px solid #E8D9B8;
+      text-align: center;
+      padding: 16px 14px;
+      color: #6B5636;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">✦</span>
+        <span>
+          <span id="headerBrandTitle" class="brand-title">AMARA</span>
+          <span class="brand-sub">الموقع والتواصل</span>
+        </span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="services.html" class="nav-link">الخدمات والأسعار</a>
+        <a href="offers.html" class="nav-link">البكجات والعروض</a>
+        <a href="booking.html" class="nav-link">الحجز الذكي</a>
+        <a href="contact.html" class="nav-link active">الموقع والتواصل</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="openCartBtn" type="button" class="luxe-action luxe-outline">
+          <span>🛍️ السلة</span>
+          <span id="cartCount" class="badge-num">0</span>
+        </button>
+        <button id="openNavModalBtn" type="button" class="luxe-action luxe-primary">☰ الشاشات</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero-box">
+      <h1 id="pageMainTitle" class="page-title">📍 الموقع والتواصل — AMARA</h1>
+      <p class="page-sub">يسعدنا تواصلك معنا وحجز مواعيدك بكل سهولة — يمكنك نسخ العنوان أو الرقم أو التواصل المباشر عبر واتساب.</p>
+    </section>
+
+    <div class="contact-grid">
+
+      <!-- العمود الأول: العنوان والهاتف ومنصات التواصل -->
+      <section class="luxe-panel">
+        <h2 class="panel-title">🏛️ بيانات المركز والمنصات</h2>
+
+        <div class="info-strip">
+          <span class="info-label">الموقع والعنوان</span>
+          <span id="centerAddress" class="info-val">زلط الشعبية مقابل مخبز طيبة</span>
+          <div class="btn-row">
+            <button id="copyAddressBtn" type="button" class="luxe-action luxe-outline">📋 نسخ العنوان</button>
+          </div>
+        </div>
+
+        <div class="info-strip">
+          <span class="info-label">رقم الهاتف وواتساب</span>
+          <span id="centerPhone" class="info-val" dir="ltr">+249 12 241 7774</span>
+          <div class="btn-row">
+            <button id="copyPhoneBtn" type="button" class="luxe-action luxe-outline">📋 نسخ الرقم</button>
+            <a id="whatsappDirectLink" href="https://wa.me/249122417774" target="_blank" rel="noopener" class="luxe-action luxe-primary">💬 واتساب مباشر</a>
+            <a id="callDirectLink" href="tel:+249122417774" class="luxe-action luxe-outline">📞 اتصال</a>
+          </div>
+        </div>
+
+        <div class="social-row">
+          <div>
+            <span class="info-label">فيسبوك</span>
+            <strong id="fbAccountName" class="info-val">Amara Amara</strong>
+          </div>
+          <button type="button" id="copyFbBtn" data-copy="Amara Amara" class="luxe-action luxe-outline copy-social-btn">نسخ</button>
+        </div>
+
+        <div class="social-row">
+          <div>
+            <span class="info-label">انستقرام</span>
+            <strong id="igAccountName" class="info-val">amara202688</strong>
+          </div>
+          <button type="button" id="copyIgBtn" data-copy="amara202688" class="luxe-action luxe-outline copy-social-btn">نسخ</button>
+        </div>
+
+        <div class="social-row">
+          <div>
+            <span class="info-label">تيك توك</span>
+            <strong id="ttAccountName" class="info-val">Amara for beauty</strong>
+          </div>
+          <button type="button" id="copyTtBtn" data-copy="Amara for beauty" class="luxe-action luxe-outline copy-social-btn">نسخ</button>
+        </div>
+      </section>
+
+      <!-- العمود الثاني: رسالة واستفسار سريع -->
+      <section class="luxe-panel">
+        <h2 class="panel-title">✉️ رسالة واستفسار سريع</h2>
+
+        <div class="field-group">
+          <label for="senderName" class="field-label">الاسم *</label>
+          <input id="senderName" type="text" class="field-input" placeholder="اكتبي اسمك هنا" />
+        </div>
+
+        <div class="field-group">
+          <label for="senderTopic" class="field-label">الموضوع *</label>
+          <input id="senderTopic" type="text" class="field-input" placeholder="مثال: استفسار عن بكج أو موعد" />
+        </div>
+
+        <div class="field-group">
+          <label for="senderMsg" class="field-label">نص الرسالة *</label>
+          <textarea id="senderMsg" class="field-textarea" placeholder="اكتبي استفسارك أو ملاحظتك هنا..."></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button id="prepareMsgBtn" type="button" class="luxe-action luxe-primary" style="flex:1;">✓ تأكيد وتجهيز الرسالة</button>
+          <button id="sendMsgWaBtn" type="button" class="luxe-action luxe-outline" style="flex:1;">💬 إرسال واتساب</button>
+          <button id="clearMsgBtn" type="button" class="luxe-action luxe-outline">مسح</button>
+        </div>
+
+        <div id="msgFeedback" class="feedback-box"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- نافذة السلة -->
+  <div id="cartModal" class="modal-bg">
+    <div class="modal-box">
+      <div class="modal-head">
+        <strong style="font-size:16px;">🛍️ سلة الحجز</strong>
+        <button id="closeCartBtn" type="button" class="luxe-action luxe-outline" style="padding:5px 10px;">✕</button>
+      </div>
+      <div id="modalCartItems"></div>
+      <div style="margin-top:12px; display:flex; justify-content:space-between; font-weight:900; background:#FAF3E8; padding:10px 12px; border-radius:12px;">
+        <span>المجموع التقديري:</span>
+        <span id="modalCartTotal" style="color:#8A6631;">0</span>
+      </div>
+      <div class="btn-row">
+        <a href="booking.html" class="luxe-action luxe-primary" style="flex:1;">الانتقال للحجز الذكي</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الشاشات -->
+  <div id="navModal" class="modal-bg">
+    <div class="modal-box">
+      <div class="modal-head">
+        <strong style="font-size:16px;">🧭 التنقل بين الشاشات</strong>
+        <button id="closeNavModalBtn" type="button" class="luxe-action luxe-outline" style="padding:5px 10px;">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <a href="index.html" class="luxe-action luxe-outline" style="justify-content:flex-start;">🏠 الشاشة الرئيسية (index.html)</a>
+        <a href="services.html" class="luxe-action luxe-outline" style="justify-content:flex-start;">📋 الخدمات والأسعار (services.html)</a>
+        <a href="offers.html" class="luxe-action luxe-outline" style="justify-content:flex-start;">👑 البكجات والعروض (offers.html)</a>
+        <a href="booking.html" class="luxe-action luxe-outline" style="justify-content:flex-start;">📅 الحجز الذكي (booking.html)</a>
+        <a href="contact.html" class="luxe-action luxe-primary" style="justify-content:flex-start;">📍 الموقع والتواصل (contact.html)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- الزر العائم للشاشات -->
+  <div id="fabBox" class="fab-wrap">
+    <button id="fabBtn" type="button" class="fab-main" title="الشاشات">🧭</button>
+    <div class="fab-list">
+      <a href="contact.html" class="fab-item">📍 الموقع والتواصل</a>
+      <a href="booking.html" class="fab-item">📅 الحجز الذكي</a>
+      <a href="offers.html" class="fab-item">👑 البكجات والعروض</a>
+      <a href="services.html" class="fab-item">📋 الخدمات والأسعار</a>
+      <a href="index.html" class="fab-item">🏠 الرئيسية</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div><strong id="footerBrandTitle">AMARA - الموقع والتواصل</strong></div>
+    <div id="footerContactText">📍 زلط الشعبية مقابل مخبز طيبة • 📞 <span dir="ltr">+249 12 241 7774</span></div>
+    <div id="footerSocialText">فيسبوك: Amara Amara | انستقرام: amara202688 | تيك توك: Amara for beauty</div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDua6TiR3ClbHW-IGseLdPtrQOcFXO6qjw",
+      authDomain: "amara-beauty.firebaseapp.com",
+      projectId: "amara-beauty",
+      storageBucket: "amara-beauty.firebasestorage.app",
+      messagingSenderId: "1045260330208",
+      appId: "1:1045260330208:web:971d3ba16f68fabc739c85",
+      measurementId: "G-S0WGK7C0MQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const STORAGE_KEY = "amara_selected_services_v1";
+    let WHATSAPP_NUMBER = "249122417774"; // سيتم تحديثه من الفايربيس
+    let memoryCart = [];
+
+    async function syncWithFirebase() {
+      try {
+        const catalogRef = doc(db, "amara_center", "unified_catalog");
+        const snap = await getDoc(catalogRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          
+          if (data.home && data.home.brandName) {
+             const hBrand = document.getElementById("headerBrandTitle");
+             const fBrand = document.getElementById("footerBrandTitle");
+             const pTitle = document.getElementById("pageMainTitle");
+             if (hBrand) hBrand.textContent = data.home.brandName;
+             if (fBrand) fBrand.textContent = data.home.brandName + " - الموقع والتواصل";
+             if (pTitle) pTitle.textContent = "📍 الموقع والتواصل — " + data.home.brandName;
+          }
+
+          if (data.booking && data.booking.whatsapp) {
+             WHATSAPP_NUMBER = data.booking.whatsapp;
+          }
+
+          if (data.contact) {
+            const cAddress = document.getElementById("centerAddress");
+            const cPhone = document.getElementById("centerPhone");
+            const fbAcc = document.getElementById("fbAccountName");
+            const igAcc = document.getElementById("igAccountName");
+            const ttAcc = document.getElementById("ttAccountName");
+            
+            const copyFbBtn = document.getElementById("copyFbBtn");
+            const copyIgBtn = document.getElementById("copyIgBtn");
+            const copyTtBtn = document.getElementById("copyTtBtn");
+
+            const waLink = document.getElementById("whatsappDirectLink");
+            const callLink = document.getElementById("callDirectLink");
+
+            const fContact = document.getElementById("footerContactText");
+            const fSocial = document.getElementById("footerSocialText");
+            
+            if (cAddress) cAddress.textContent = data.contact.address || "غير متوفر";
+            if (cPhone) cPhone.textContent = data.contact.phone || "غير متوفر";
+            
+            if (fbAcc) fbAcc.textContent = data.contact.facebook || "غير متوفر";
+            if (igAcc) igAcc.textContent = data.contact.instagram || "غير متوفر";
+            if (ttAcc) ttAcc.textContent = data.contact.tiktok || "غير متوفر";
+
+            if (copyFbBtn) copyFbBtn.setAttribute("data-copy", data.contact.facebook || "");
+            if (copyIgBtn) copyIgBtn.setAttribute("data-copy", data.contact.instagram || "");
+            if (copyTtBtn) copyTtBtn.setAttribute("data-copy", data.contact.tiktok || "");
+
+            if (waLink) waLink.href = "https://wa.me/" + WHATSAPP_NUMBER;
+            if (callLink) callLink.href = "tel:" + data.contact.phone;
+
+            if (fContact) {
+              fContact.innerHTML = `📍 ${data.contact.address} • 📞 <span dir="ltr">${data.contact.phone}</span>`;
+            }
+            if (fSocial) {
+              fSocial.textContent = `فيسبوك: ${data.contact.facebook || ''} | انستقرام: ${data.contact.instagram || ''} | تيك توك: ${data.contact.tiktok || ''}`;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Firebase sync error:", e);
+      }
+    }
+
+    function readCart() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) memoryCart = JSON.parse(raw);
+      } catch (err) {}
+      return Array.isArray(memoryCart) ? memoryCart : [];
+    }
+
+    function renderCartBadge() {
+      const cart = readCart();
+      const countEl = document.getElementById("cartCount");
+      const listEl = document.getElementById("modalCartItems");
+      const totalEl = document.getElementById("modalCartTotal");
+
+      const totalQty = cart.reduce((s, x) => s + (Number(x.qty) || 1), 0);
+      if (countEl) countEl.textContent = String(totalQty);
+      if (!listEl || !totalEl) return;
+
+      if (!cart.length) {
+        listEl.innerHTML = `<div style="text-align:center; padding:16px; color:#6B5636; font-weight:700;">السلة فارغة حالياً.</div>`;
+        totalEl.textContent = "0";
+        return;
+      }
+
+      let sum = 0;
+      listEl.innerHTML = "";
+      cart.forEach(item => {
+        const q = Number(item.qty) || 1;
+        sum += (Number(item.val) || 0) * q;
+        const row = document.createElement("div");
+        row.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#FAF3E8; border:1px solid #E8D9B8; border-radius:12px; padding:9px 12px; margin-bottom:7px; font-size:13px; font-weight:800;";
+        row.innerHTML = `<span>${item.name} × ${q}</span><span style="color:#8A6631;">${item.price}</span>`;
+        listEl.appendChild(row);
+      });
+      totalEl.textContent = sum.toLocaleString("en-US");
+    }
+
+    function setFeedback(type, msg) {
+      const fb = document.getElementById("msgFeedback");
+      if (!fb) return;
+      fb.className = "feedback-box " + type;
+      fb.textContent = msg;
+    }
+
+    function clearFeedback() {
+      const fb = document.getElementById("msgFeedback");
+      if (!fb) return;
+      fb.className = "feedback-box";
+      fb.textContent = "";
+    }
+
+    function copyValue(text, label) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          setFeedback("ok", "تم نسخ " + label + " بنجاح: " + text);
+        }).catch(function () {
+          setFeedback("ok", label + ": " + text);
+        });
+      } else {
+        setFeedback("ok", label + ": " + text);
+      }
+    }
+
+    function validateForm(showErr) {
+      const nameEl = document.getElementById("senderName");
+      const topicEl = document.getElementById("senderTopic");
+      const msgEl = document.getElementById("senderMsg");
+
+      const nameVal = (nameEl?.value || "").trim();
+      const topicVal = (topicEl?.value || "").trim();
+      const msgVal = (msgEl?.value || "").trim();
+
+      [nameEl, topicEl, msgEl].forEach(el => el && el.classList.remove("field-error"));
+
+      const missing = [];
+      if (!nameVal) { missing.push("الاسم"); if (showErr && nameEl) nameEl.classList.add("field-error"); }
+      if (!topicVal) { missing.push("الموضوع"); if (showErr && topicEl) topicEl.classList.add("field-error"); }
+      if (!msgVal) { missing.push("نص الرسالة"); if (showErr && msgEl) msgEl.classList.add("field-error"); }
+
+      if (missing.length) {
+        if (showErr) setFeedback("err", "يرجى إكمال الحقول المطلوبة: " + missing.join("، ") + ".");
+        return false;
+      }
+      return true;
+    }
+
+    function buildMessageText() {
+      const name = (document.getElementById("senderName")?.value || "").trim();
+      const topic = (document.getElementById("senderTopic")?.value || "").trim();
+      const msg = (document.getElementById("senderMsg")?.value || "").trim();
+      return [
+        "✦ رسالة لمركز AMARA",
+        "الاسم: " + name,
+        "الموضوع: " + topic,
+        "الرسالة: " + msg
+      ].join("\n");
+    }
+
+    function attachRipples() {
+      document.querySelectorAll(".luxe-action").forEach(btn => {
+        btn.addEventListener("pointerdown", function (e) {
+          const rect = btn.getBoundingClientRect();
+          const d = Math.max(rect.width, rect.height);
+          const dot = document.createElement("span");
+          dot.className = "ripple-wave";
+          dot.style.width = dot.style.height = d + "px";
+          dot.style.left = (e.clientX - rect.left - d / 2) + "px";
+          dot.style.top = (e.clientY - rect.top - d / 2) + "px";
+          btn.appendChild(dot);
+          setTimeout(function () { dot.remove(); }, 550);
+        });
+      });
+    }
+
+    function setupEvents() {
+      document.getElementById("copyAddressBtn")?.addEventListener("click", function () {
+        const addr = document.getElementById("centerAddress")?.textContent || "العنوان غير متوفر";
+        copyValue(addr, "العنوان");
+      });
+
+      document.getElementById("copyPhoneBtn")?.addEventListener("click", function () {
+        const phone = document.getElementById("centerPhone")?.textContent || "الرقم غير متوفر";
+        copyValue(phone, "رقم الهاتف");
+      });
+
+      // نستخدم التحديد الديناميكي للأزرار لضمان أن تقرأ السمة data-copy المحدثة
+      document.getElementById("copyFbBtn")?.addEventListener("click", function (e) {
+        copyValue(e.target.getAttribute("data-copy") || "", "اسم الحساب");
+      });
+      document.getElementById("copyIgBtn")?.addEventListener("click", function (e) {
+        copyValue(e.target.getAttribute("data-copy") || "", "اسم الحساب");
+      });
+      document.getElementById("copyTtBtn")?.addEventListener("click", function (e) {
+        copyValue(e.target.getAttribute("data-copy") || "", "اسم الحساب");
+      });
+
+      ["senderName", "senderTopic", "senderMsg"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", function () {
+            el.classList.remove("field-error");
+            clearFeedback();
+          });
+        }
+      });
+
+      document.getElementById("prepareMsgBtn")?.addEventListener("click", function () {
+        if (!validateForm(true)) return;
+        setFeedback("ok", "تم تأكيد الرسالة وجاهزة للإرسال عبر واتساب.");
+      });
+
+      document.getElementById("sendMsgWaBtn")?.addEventListener("click", function () {
+        if (!validateForm(true)) return;
+        const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildMessageText());
+        window.open(url, "_blank", "noopener");
+      });
+
+      document.getElementById("clearMsgBtn")?.addEventListener("click", function () {
+        ["senderName", "senderTopic", "senderMsg"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.value = "";
+            el.classList.remove("field-error");
+          }
+        });
+        clearFeedback();
+      });
+
+      const cartModal = document.getElementById("cartModal");
+      document.getElementById("openCartBtn")?.addEventListener("click", function () {
+        renderCartBadge();
+        if (cartModal) cartModal.classList.add("open");
+      });
+      document.getElementById("closeCartBtn")?.addEventListener("click", function () {
+        if (cartModal) cartModal.classList.remove("open");
+      });
+
+      const navModal = document.getElementById("navModal");
+      document.getElementById("openNavModalBtn")?.addEventListener("click", function () {
+        if (navModal) navModal.classList.add("open");
+      });
+      document.getElementById("closeNavModalBtn")?.addEventListener("click", function () {
+        if (navModal) navModal.classList.remove("open");
+      });
+
+      const fabBox = document.getElementById("fabBox");
+      const fabBtn = document.getElementById("fabBtn");
+      if (fabBtn && fabBox) {
+        fabBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          fabBox.classList.toggle("open");
+        });
+      }
+
+      document.addEventListener("click", function (e) {
+        if (fabBox && !fabBox.contains(e.target)) fabBox.classList.remove("open");
+        if (e.target === cartModal && cartModal) cartModal.classList.remove("open");
+        if (e.target === navModal && navModal) navModal.classList.remove("open");
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCartBadge();
+      attachRipples();
+      setupEvents();
+      syncWithFirebase();
+    });
+  </script>
+</body>
+</html>

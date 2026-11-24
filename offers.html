@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMARA - البكجات والعروض</title>
+  <style>
+- { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background: #FAF3E8;
+      color: #2E2419;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      background: #FFFFFF;
+      border-bottom: 2px solid #E8D9B8;
+      box-shadow: 0 4px 14px rgba(46, 36, 25, 0.05);
+    }
+
+    .topbar-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #C49B5C, #8A6631);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .brand-title { font-weight: 900; font-size: 16px; display: block; line-height: 1.2; }
+    .brand-sub { font-size: 12px; font-weight: 700; color: #8A6631; display: block; line-height: 1.2; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 7px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #FAF3E8;
+      color: #2E2419;
+      border: 1px solid #E5D3B0;
+    }
+
+    .nav-link.active {
+      background: #8A6631;
+      color: #fff;
+      border-color: #8A6631;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      border-radius: 13px;
+      padding: 9px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(138, 102, 49, 0.22);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #C49B5C, #8A6631);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(180, 140, 80, 0.3);
+    }
+
+    .btn-light {
+      background: #fff;
+      color: #2E2419;
+      border: 2px solid #B48C50;
+    }
+
+    .badge-num {
+      background: #8A6631;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .container {
+      max-width: 1140px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 100px;
+      flex: 1;
+    }
+
+    .hero-panel {
+      background: #fff;
+      border: 2px solid #E8D9B8;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 8px 22px rgba(46, 36, 25, 0.05);
+    }
+
+    .page-title {
+      margin: 0 0 6px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #2E2419;
+      line-height: 1.3;
+    }
+
+    .page-sub {
+      margin: 0;
+      font-size: 14px;
+      color: #6B5636;
+      line-height: 1.6;
+    }
+
+    .tabs-bar {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #F0E6D2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #C49B5C, #8A6631);
+      color: #fff;
+      border-color: #8A6631;
+    }
+
+    .offers-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .offer-card {
+      background: #fff;
+      border: 2px solid #E8D9B8;
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 8px 20px rgba(46, 36, 25, 0.05);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-3px);
+      border-color: #B48C50;
+      box-shadow: 0 12px 26px rgba(180, 140, 80, 0.18);
+    }
+
+    .offer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .offer-tag {
+      background: #FAF3E8;
+      color: #8A6631;
+      border: 1px solid #E5D3B0;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .offer-price {
+      background: linear-gradient(135deg, #C49B5C, #8A6631);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .offer-name {
+      margin: 8px 0 6px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #2E2419;
+      line-height: 1.35;
+    }
+
+    .offer-desc {
+      margin: 0;
+      font-size: 13px;
+      color: #6B5636;
+      line-height: 1.65;
+    }
+
+    .offer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid #F3EAD8;
+    }
+
+    /* الزر العائم للشاشات */
+    .fab-wrap {
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      z-index: 60;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .fab-list {
+      display: none;
+      flex-direction: column-reverse;
+      gap: 6px;
+    }
+
+    .fab-wrap.open .fab-list {
+      display: flex;
+    }
+
+    .fab-main {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      border: 2px solid #fff;
+      background: linear-gradient(135deg, #D5AE6E, #8A6631);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(138, 102, 49, 0.45);
+    }
+
+    .fab-item {
+      background: #fff;
+      color: #2E2419;
+      border: 1.5px solid #B48C50;
+      border-radius: 13px;
+      padding: 8px 13px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .fab-item:hover {
+      background: #B48C50;
+      color: #fff;
+    }
+
+    /* النوافذ المنبثقة */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(46, 36, 25, 0.6);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border: 2px solid #B48C50;
+      border-radius: 22px;
+      width: 100%;
+      max-width: 460px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #EFE4CE;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #FAF3E8;
+      border: 1px solid #E8D9B8;
+      border-radius: 13px;
+      padding: 9px 12px;
+      margin-bottom: 8px;
+    }
+
+    .toast-note {
+      position: fixed;
+      bottom: 22px;
+      right: 18px;
+      z-index: 80;
+      background: #2E2419;
+      color: #FAF3E8;
+      border: 1.5px solid #C49B5C;
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+      display: none;
+    }
+
+    .toast-note.show {
+      display: block;
+    }
+
+    .footer {
+      background: #fff;
+      border-top: 2px solid #E8D9B8;
+      text-align: center;
+      padding: 16px 14px;
+      color: #6B5636;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">✦</span>
+        <span>
+          <span id="headerBrandTitle" class="brand-title">AMARA</span>
+          <span class="brand-sub">البكجات والعروض</span>
+        </span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="services.html" class="nav-link">الخدمات والأسعار</a>
+        <a href="offers.html" class="nav-link active">البكجات والعروض</a>
+        <a href="booking.html" class="nav-link">الحجز الذكي</a>
+        <a href="contact.html" class="nav-link">الموقع والتواصل</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="openCartBtn" type="button" class="btn btn-light">
+          <span>🛍️ السلة</span>
+          <span id="cartCount" class="badge-num">0</span>
+        </button>
+        <button id="openNavModalBtn" type="button" class="btn btn-gold">☰ الشاشات</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero-panel">
+      <h1 class="page-title">👑 البكجات والعروض الخاصة</h1>
+      <p class="page-sub">باقات العرائس والمناسبات وجلسات VIP المختارة — استعرضي التفاصيل أو أضيفي البكج مباشرة إلى سلة الحجز.</p>
+
+      <div id="tabsBar" class="tabs-bar"></div>
+    </section>
+
+    <section id="offersGrid" class="offers-grid"></section>
+  </main>
+
+  <!-- نافذة تفاصيل البكج المنبثقة -->
+  <div id="detailModal" class="modal-bg">
+    <div class="modal-box">
+      <div class="modal-head">
+        <strong id="detailTitle" style="font-size:17px;">تفاصيل البكج</strong>
+        <button id="closeDetailBtn" type="button" class="btn btn-light" style="padding:5px 10px;">✕</button>
+      </div>
+      <div id="detailBody" style="font-size:14px; line-height:1.75; color:#3C3226;"></div>
+      <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button id="detailAddBtn" type="button" class="btn btn-gold" style="flex:1;">+ إضافة البكج للسلة</button>
+        <a href="booking.html" class="btn btn-light">الذهاب للحجز</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة السلة -->
+  <div id="cartModal" class="modal-bg">
+    <div class="modal-box">
+      <div class="modal-head">
+        <strong style="font-size:16px;">🛍️ سلة الحجز</strong>
+        <button id="closeCartBtn" type="button" class="btn btn-light" style="padding:5px 10px;">✕</button>
+      </div>
+      <div id="cartItemsWrap"></div>
+      <div style="margin-top:12px; padding-top:10px; border-top:1px solid #EFE4CE;">
+        <div style="display:flex; justify-content:space-between; font-weight:900; background:#FAF3E8; padding:10px 12px; border-radius:12px; margin-bottom:10px;">
+          <span>المجموع التقديري:</span>
+          <span id="cartTotalVal" style="color:#8A6631;">0</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="booking.html" class="btn btn-gold" style="flex:1;">الانتقال للحجز الذكي</a>
+          <button id="clearCartBtn" type="button" class="btn btn-light">مسح السلة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الشاشات -->
+  <div id="navModal" class="modal-bg">
+    <div class="modal-box">
+      <div class="modal-head">
+        <strong style="font-size:16px;">🧭 التنقل بين الشاشات</strong>
+        <button id="closeNavModalBtn" type="button" class="btn btn-light" style="padding:5px 10px;">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <a href="index.html" class="btn btn-light" style="justify-content:flex-start;">🏠 الشاشة الرئيسية (index.html)</a>
+        <a href="services.html" class="btn btn-light" style="justify-content:flex-start;">📋 الخدمات والأسعار (services.html)</a>
+        <a href="offers.html" class="btn btn-gold" style="justify-content:flex-start;">👑 البكجات والعروض (offers.html)</a>
+        <a href="booking.html" class="btn btn-light" style="justify-content:flex-start;">📅 الحجز الذكي (booking.html)</a>
+        <a href="contact.html" class="btn btn-light" style="justify-content:flex-start;">📍 الموقع والتواصل (contact.html)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- الزر العائم للشاشات -->
+  <div id="fabBox" class="fab-wrap">
+    <button id="fabBtn" type="button" class="fab-main" title="الشاشات">🧭</button>
+    <div class="fab-list">
+      <a href="contact.html" class="fab-item">📍 الموقع والتواصل</a>
+      <a href="booking.html" class="fab-item">📅 الحجز الذكي</a>
+      <a href="offers.html" class="fab-item">👑 البكجات والعروض</a>
+      <a href="services.html" class="fab-item">📋 الخدمات والأسعار</a>
+      <a href="index.html" class="fab-item">🏠 الرئيسية</a>
+    </div>
+  </div>
+
+  <div id="toastNote" class="toast-note">تمت إضافة البكج إلى السلة ✓</div>
+
+  <footer class="footer">
+    <div><strong id="footerBrandTitle">AMARA - قائمة الأسعار</strong></div>
+    <div id="footerContactText">📍 زلط الشعبية مقابل مخبز طيبة • 📞 <span dir="ltr">+249 12 241 7774</span></div>
+    <div id="footerSocialText">فيسبوك: Amara Amara | انستقرام: amara202688 | تيك توك: Amara for beauty</div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDua6TiR3ClbHW-IGseLdPtrQOcFXO6qjw",
+      authDomain: "amara-beauty.firebaseapp.com",
+      projectId: "amara-beauty",
+      storageBucket: "amara-beauty.firebasestorage.app",
+      messagingSenderId: "1045260330208",
+      appId: "1:1045260330208:web:971d3ba16f68fabc739c85",
+      measurementId: "G-S0WGK7C0MQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const STORAGE_KEY = "amara_selected_services_v1";
+
+    const TABS = [
+      { id: "all", label: "الكل ✨" },
+      { id: "bridal", label: "💍 عرائس ومناسبات" },
+      { id: "vip", label: "🖤 VIP وعناية" },
+      { id: "rental", label: "👗 إيجار وتجهيز" }
+    ];
+
+    let OFFERS = [
+      {
+        id: "pkg_talbees",
+        cat: "bridal",
+        tag: "بكج عروس",
+        title: "بكج تلبيس كامل",
+        price: "1,300,000",
+        val: 1300000,
+        summary: "باقة متكاملة لتجهيز العروس في يوم التلبيس بإطلالة فاخرة ومنسقة.",
+        notes: "يشمل تنسيق المظهر الكامل للعروس حسب الموعد المتفق عليه مع المركز."
+      },
+      {
+        id: "pkg_jirtiq",
+        cat: "bridal",
+        tag: "مناسبات خاصة",
+        title: "بكج جرتق كامل",
+        price: "650,000",
+        val: 650000,
+        summary: "باقة مخصصة لجلسة الجرتق بتفاصيل متكاملة ولمسات مميزة.",
+        notes: "يُفضّل تأكيد الحجز مسبقاً لتحديد التوقيت المناسب."
+      },
+      {
+        id: "pkg_henna_bride",
+        cat: "bridal",
+        tag: "حنة",
+        title: "حنه عروس",
+        price: "250,000",
+        val: 250000,
+        summary: "نقش حنة متكامل للعروس بتصاميم دقيقة وثابتة.",
+        notes: "متوفر ضمن قسم الحنة في قائمة الخدمات."
+      },
+      {
+        id: "pkg_hydra_vip",
+        cat: "vip",
+        tag: "VIP بشرة",
+        title: "VIP امارا 🖤",
+        price: "150,000",
+        val: 150000,
+        summary: "جلسة هايدرافيشل VIP أمارا لنضارة وتنظيف عميق للبشرة.",
+        notes: "من الجلسات المميزة في قسم هايدرافيشل."
+      },
+      {
+        id: "pkg_massage_vip",
+        cat: "vip",
+        tag: "VIP استرخاء",
+        title: "مساج VIP",
+        price: "200,000",
+        val: 200000,
+        summary: "جلسة مساج VIP للاسترخاء وتجديد النشاط البدني.",
+        notes: "يتوفر أيضاً مساج Hard و Soft ومساج الرأس والحجامة."
+      },
+      {
+        id: "pkg_wedding_dress",
+        cat: "rental",
+        tag: "إيجار",
+        title: "فستان زفاف",
+        price: "600,000",
+        val: 600000,
+        summary: "إيجار فستان زفاف لإطلالة متكاملة في ليلة العمر.",
+        notes: "متوفر ضمن قسم الإيجار والبيرسينج مع خيارات إيجار التياب والجدلة والتوب."
+      }
+    ];
+
+    let activeTab = "all";
+    let memoryCart = [];
+    let currentModalOffer = null;
+    let toastTimer = null;
+
+    async function syncWithFirebase() {
+      try {
+        const catalogRef = doc(db, "amara_center", "unified_catalog");
+        const snap = await getDoc(catalogRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          
+          if (data.offers && data.offers.length > 0) {
+            OFFERS = data.offers;
+            renderOffers();
+          }
+
+          if (data.home && data.home.brandName) {
+             const hBrand = document.getElementById("headerBrandTitle");
+             const fBrand = document.getElementById("footerBrandTitle");
+             if (hBrand) hBrand.textContent = data.home.brandName;
+             if (fBrand) fBrand.textContent = data.home.brandName + " - قائمة الأسعار";
+          }
+
+          if (data.contact) {
+            const fContact = document.getElementById("footerContactText");
+            const fSocial = document.getElementById("footerSocialText");
+            
+            if (fContact) {
+              fContact.innerHTML = `📍 ${data.contact.address} • 📞 <span dir="ltr">${data.contact.phone}</span>`;
+            }
+            if (fSocial) {
+              fSocial.textContent = `فيسبوك: ${data.contact.facebook || ''} | انستقرام: ${data.contact.instagram || ''} | تيك توك: ${data.contact.tiktok || ''}`;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Firebase sync error:", e);
+      }
+    }
+
+    function readCart() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) memoryCart = JSON.parse(raw);
+      } catch (err) {}
+      return Array.isArray(memoryCart) ? memoryCart : [];
+    }
+
+    function writeCart(arr) {
+      memoryCart = arr;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+      } catch (err) {}
+      renderCart();
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById("toastNote");
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        el.classList.remove("show");
+      }, 2000);
+    }
+
+    window.addOffer = function(offer) {
+      if (!offer) return;
+      const cart = readCart().slice();
+      const found = cart.find(x => x.name === offer.title);
+      if (found) found.qty = (Number(found.qty) || 1) + 1;
+      else cart.push({ name: offer.title, price: offer.price, val: Number(offer.val) || 0, qty: 1 });
+      writeCart(cart);
+      showToast("تمت إضافة البكج إلى السلة ✓");
+    };
+
+    window.changeQty = function(idx, delta) {
+      const cart = readCart().slice();
+      if (!cart[idx]) return;
+      const next = (Number(cart[idx].qty) || 1) + delta;
+      if (next <= 0) cart.splice(idx, 1);
+      else cart[idx].qty = next;
+      writeCart(cart);
+    };
+
+    function renderCart() {
+      const cart = readCart();
+      const countEl = document.getElementById("cartCount");
+      const wrapEl = document.getElementById("cartItemsWrap");
+      const totalEl = document.getElementById("cartTotalVal");
+
+      const totalQty = cart.reduce((s, x) => s + (Number(x.qty) || 1), 0);
+      if (countEl) countEl.textContent = String(totalQty);
+      if (!wrapEl || !totalEl) return;
+
+      if (!cart.length) {
+        wrapEl.innerHTML = `<div style="text-align:center; padding:20px; color:#6B5636; font-weight:700;">سلة الحجز فارغة حالياً. اضغطي على "+ للسلة" في أي بكج.</div>`;
+        totalEl.textContent = "0";
+        return;
+      }
+
+      let sum = 0;
+      wrapEl.innerHTML = "";
+      cart.forEach((item, idx) => {
+        const q = Number(item.qty) || 1;
+        sum += (Number(item.val) || 0) * q;
+
+        const row = document.createElement("div");
+        row.className = "cart-item";
+
+        const info = document.createElement("div");
+        info.innerHTML = `<div style="font-weight:800; font-size:14px;">${item.name}</div><div style="font-size:12px; font-weight:800; color:#8A6631;">${item.price}</div>`;
+
+        const ctrls = document.createElement("div");
+        ctrls.style.display = "flex";
+        ctrls.style.alignItems = "center";
+        ctrls.style.gap = "6px";
+
+        const minus = document.createElement("button");
+        minus.type = "button";
+        minus.className = "btn btn-light";
+        minus.style.padding = "4px 9px";
+        minus.textContent = "-";
+        minus.onclick = function () { window.changeQty(idx, -1); };
+
+        const num = document.createElement("span");
+        num.style.fontWeight = "900";
+        num.style.minWidth = "20px";
+        num.style.textAlign = "center";
+        num.textContent = String(q);
+
+        const plus = document.createElement("button");
+        plus.type = "button";
+        plus.className = "btn btn-gold";
+        plus.style.padding = "4px 9px";
+        plus.textContent = "+";
+        plus.onclick = function () { window.changeQty(idx, 1); };
+
+        ctrls.appendChild(minus);
+        ctrls.appendChild(num);
+        ctrls.appendChild(plus);
+
+        row.appendChild(info);
+        row.appendChild(ctrls);
+        wrapEl.appendChild(row);
+      });
+
+      totalEl.textContent = sum.toLocaleString("en-US");
+    }
+
+    function renderTabs() {
+      const bar = document.getElementById("tabsBar");
+      if (!bar) return;
+      bar.innerHTML = "";
+
+      TABS.forEach(t => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-light tab-btn" + (activeTab === t.id ? " active" : "");
+        btn.textContent = t.label;
+        btn.onclick = function () {
+          activeTab = t.id;
+          renderTabs();
+          renderOffers();
+        };
+        bar.appendChild(btn);
+      });
+    }
+
+    window.openDetailModal = function(offer) {
+      currentModalOffer = offer;
+      const modal = document.getElementById("detailModal");
+      const titleEl = document.getElementById("detailTitle");
+      const bodyEl = document.getElementById("detailBody");
+      if (!modal || !titleEl || !bodyEl) return;
+
+      titleEl.textContent = offer.title;
+      bodyEl.innerHTML = `
+        <div style="background:#FAF3E8; border:1px solid #E5D3B0; padding:10px 14px; border-radius:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:800; color:#6B5636;">السعر المعلن:</span>
+          <strong style="font-size:16px; color:#8A6631;">${offer.price}</strong>
+        </div>
+        <p style="margin:0 0 8px; font-weight:700;">${offer.summary}</p>
+        <p style="margin:0; font-size:13px; color:#6B5636;">${offer.notes || 'باقة مميزة من مركز AMARA'}</p>
+      `;
+      modal.classList.add("open");
+    };
+
+    function renderOffers() {
+      const grid = document.getElementById("offersGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      const list = OFFERS.filter(o => activeTab === "all" || o.cat === activeTab);
+
+      list.forEach(offer => {
+        const card = document.createElement("article");
+        card.className = "offer-card";
+
+        const top = document.createElement("div");
+        top.className = "offer-top";
+        top.innerHTML = `<span class="offer-tag">${offer.tag}</span><span class="offer-price">${offer.price}</span>`;
+
+        const content = document.createElement("div");
+        content.innerHTML = `<h2 class="offer-name">${offer.title}</h2><p class="offer-desc">${offer.summary}</p>`;
+
+        const actions = document.createElement("div");
+        actions.className = "offer-actions";
+
+        const detailBtn = document.createElement("button");
+        detailBtn.type = "button";
+        detailBtn.className = "btn btn-light";
+        detailBtn.style.flex = "1";
+        detailBtn.textContent = "التفاصيل";
+        detailBtn.onclick = function () { window.openDetailModal(offer); };
+
+        const addBtn = document.createElement("button");
+        addBtn.type = "button";
+        addBtn.className = "btn btn-gold";
+        addBtn.style.flex = "1";
+        addBtn.textContent = "+ للسلة";
+        addBtn.onclick = function () { window.addOffer(offer); };
+
+        actions.appendChild(detailBtn);
+        actions.appendChild(addBtn);
+
+        card.appendChild(top);
+        card.appendChild(content);
+        card.appendChild(actions);
+        grid.appendChild(card);
+      });
+    }
+
+    function setupEvents() {
+      const detailModal = document.getElementById("detailModal");
+      const closeDetailBtn = document.getElementById("closeDetailBtn");
+      const detailAddBtn = document.getElementById("detailAddBtn");
+
+      if (closeDetailBtn) {
+        closeDetailBtn.onclick = function () {
+          if (detailModal) detailModal.classList.remove("open");
+        };
+      }
+
+      if (detailAddBtn) {
+        detailAddBtn.onclick = function () {
+          if (currentModalOffer) window.addOffer(currentModalOffer);
+          if (detailModal) detailModal.classList.remove("open");
+        };
+      }
+
+      const cartModal = document.getElementById("cartModal");
+      const openCartBtn = document.getElementById("openCartBtn");
+      const closeCartBtn = document.getElementById("closeCartBtn");
+      const clearCartBtn = document.getElementById("clearCartBtn");
+
+      if (openCartBtn) {
+        openCartBtn.onclick = function () {
+          renderCart();
+          if (cartModal) cartModal.classList.add("open");
+        };
+      }
+      if (closeCartBtn) {
+        closeCartBtn.onclick = function () {
+          if (cartModal) cartModal.classList.remove("open");
+        };
+      }
+      if (clearCartBtn) {
+        clearCartBtn.onclick = function () {
+          writeCart([]);
+        };
+      }
+
+      const navModal = document.getElementById("navModal");
+      const openNavModalBtn = document.getElementById("openNavModalBtn");
+      const closeNavModalBtn = document.getElementById("closeNavModalBtn");
+
+      if (openNavModalBtn) {
+        openNavModalBtn.onclick = function () {
+          if (navModal) navModal.classList.add("open");
+        };
+      }
+      if (closeNavModalBtn) {
+        closeNavModalBtn.onclick = function () {
+          if (navModal) navModal.classList.remove("open");
+        };
+      }
+
+      const fabBox = document.getElementById("fabBox");
+      const fabBtn = document.getElementById("fabBtn");
+      if (fabBtn && fabBox) {
+        fabBtn.onclick = function (e) {
+          e.stopPropagation();
+          fabBox.classList.toggle("open");
+        };
+      }
+
+      document.addEventListener("click", function (e) {
+        if (fabBox && !fabBox.contains(e.target)) fabBox.classList.remove("open");
+        if (e.target === detailModal && detailModal) detailModal.classList.remove("open");
+        if (e.target === cartModal && cartModal) cartModal.classList.remove("open");
+        if (e.target === navModal && navModal) navModal.classList.remove("open");
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTabs();
+      renderOffers();
+      renderCart();
+      setupEvents();
+      syncWithFirebase();
+    });
+  </script>
+</body>
+</html>
